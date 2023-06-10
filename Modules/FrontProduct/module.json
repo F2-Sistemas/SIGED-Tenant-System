@@ -1,0 +1,11 @@
+{
+    "name": "FrontProduct",
+    "alias": "frontproduct",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FrontProduct\\Providers\\FrontProductServiceProvider"
+    ],
+    "files": []
+}

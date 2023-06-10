@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -83,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'pt_BR'),
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +167,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \App\Providers\TenancyServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -184,5 +184,4 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
-
 ];
