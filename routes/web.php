@@ -1,19 +1,13 @@
 <?php
 
+use App\Http\Controllers\RedirectToAdminController;
 use App\Http\Livewire\Users\ListUsers;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Products\ListProducts;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-Route::get('/', fn () => view('welcome'));
+Route::view('/', 'welcome');
+Route::get('/login', RedirectToAdminController::class)->name('login');
 
 Route::get('users', ListUsers::class);
+Route::get('products', ListProducts::class);

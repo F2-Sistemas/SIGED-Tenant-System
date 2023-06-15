@@ -17,7 +17,7 @@ return new class() extends Migration {
             $table->uuid('id')->index()->unique()->primary();
             $table->uuid('seller_id')->index();
             $table->string('name');
-            $table->integer('unit_type')->nullable();
+            $table->integer('unit_type')->index()->nullable();
         });
     }
 

@@ -11,7 +11,7 @@ class ProductVariationFactory extends Factory
      *
      * @var string
      */
-    protected $model = \Modules\Product\Entities\ProductPriceFactory::class;
+    protected $model = \Modules\Product\Entities\ProductVariation::class;
 
     /**
      * Define the model's default state.
@@ -21,7 +21,7 @@ class ProductVariationFactory extends Factory
     public function definition()
     {
         return [
-            'code' => implde('-', \fake()->words(2)),
+            'code' => implode('-', \fake()->words(2)),
             'product_id' => \Modules\Product\Entities\Product::factory(),
             'description' => \App\Helpers\Faker::paragraphs(
                 count: 3,
@@ -46,12 +46,7 @@ class ProductVariationFactory extends Factory
             'main' => false,
             'enabled' => true,
             'need_to_control_stock' => false,
-            'stock' => \null,
-            'show_if_out_stock' => \null,
-            'show_out_stock_message' => \null,
             'available' => (rand(1, 100) % 5) === 0,
-            'show_if_unavailable' => \null,
-            'show_unavailable_message' => \null,
             'meta_info' => [
                 'voltage' => '12v',
                 'weight' => '120g',

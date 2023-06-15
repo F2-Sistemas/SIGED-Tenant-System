@@ -159,11 +159,11 @@ return [
         'buttons' => [
 
             'select_all' => [
-                'label' => 'Selecione todos os :count',
+                'label' => 'Selecionar todos os :count',
             ],
 
             'deselect_all' => [
-                'label' => 'Desselecionar todos',
+                'label' => 'Desmarcar todos',
             ],
 
         ],

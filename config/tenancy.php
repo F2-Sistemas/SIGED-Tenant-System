@@ -19,7 +19,10 @@ return [
      */
     'central_domains' => [
         '127.0.0.1',
+        '0.0.0.0',
         'localhost',
+        'app.local',
+        'dev-home.tiagofranca.com',
     ],
 
     /**
