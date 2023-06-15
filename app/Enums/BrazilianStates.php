@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use App\Libs\Enums\Enum;
+use TiagoF2\Enums\Core\Enum;
 
 class BrazilianStates extends Enum
 {

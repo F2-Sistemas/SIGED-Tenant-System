@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fbcf9632a3a9338b2b2ae1beb2cc60fb",
+    "content-hash": "2da49d6f9c8394c394bf9719451922d9",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -326,6 +326,59 @@
                 }
             ],
             "time": "2022-09-29T07:48:20+00:00"
+        },
+        {
+            "name": "danharrin/livewire-rate-limiting",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danharrin/livewire-rate-limiting.git",
+                "reference": "a55996683cabf2e93893280d602191243b3b80b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danharrin/livewire-rate-limiting/zipball/a55996683cabf2e93893280d602191243b3b80b8",
+                "reference": "a55996683cabf2e93893280d602191243b3b80b8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^9.0|^10.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "livewire/livewire": "^2.3",
+                "orchestra/testbench": "^7.0|^8.0",
+                "phpunit/phpunit": "^9.0|^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DanHarrin\\LivewireRateLimiting\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dan Harrin",
+                    "email": "dan@danharrin.com"
+                }
+            ],
+            "description": "Apply rate limiters to Laravel Livewire actions.",
+            "homepage": "https://github.com/danharrin/livewire-rate-limiting",
+            "support": {
+                "issues": "https://github.com/danharrin/livewire-rate-limiting/issues",
+                "source": "https://github.com/danharrin/livewire-rate-limiting"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/danharrin",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-12T12:17:29+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -750,6 +803,68 @@
                 "source": "https://github.com/facade/ignition-contracts/tree/1.0.2"
             },
             "time": "2020-10-16T08:27:54+00:00"
+        },
+        {
+            "name": "filament/filament",
+            "version": "v2.17.46",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/panels.git",
+                "reference": "5da132736a6bde74c7107bdbefd8e0383af5bd39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/panels/zipball/5da132736a6bde74c7107bdbefd8e0383af5bd39",
+                "reference": "5da132736a6bde74c7107bdbefd8e0383af5bd39",
+                "shasum": ""
+            },
+            "require": {
+                "danharrin/livewire-rate-limiting": "^0.3|^1.0",
+                "filament/forms": "self.version",
+                "filament/notifications": "self.version",
+                "filament/support": "self.version",
+                "filament/tables": "self.version",
+                "illuminate/auth": "^8.6|^9.0|^10.0",
+                "illuminate/console": "^8.6|^9.0|^10.0",
+                "illuminate/contracts": "^8.6|^9.0|^10.0",
+                "illuminate/cookie": "^8.6|^9.0|^10.0",
+                "illuminate/database": "^8.6|^9.0|^10.0",
+                "illuminate/http": "^8.6|^9.0|^10.0",
+                "illuminate/routing": "^8.6|^9.0|^10.0",
+                "illuminate/session": "^8.6|^9.0|^10.0",
+                "illuminate/support": "^8.6|^9.0|^10.0",
+                "illuminate/view": "^8.6|^9.0|^10.0",
+                "livewire/livewire": "^2.10.7",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Filament\\FilamentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Effortlessly build TALL-powered admin panels.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2023-06-07T07:11:02+00:00"
         },
         {
             "name": "filament/forms",
@@ -6549,16 +6664,16 @@
         },
         {
             "name": "tiagof2/f2-laravel-enums",
-            "version": "v2.0.2",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tiagofrancafernandes/f2-laravel-enums.git",
-                "reference": "137ef0d1a659feb2c86eab6e1418cb9f10229a0f"
+                "reference": "dd918a55bfc20d5e01780d03114414c530f5fc55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tiagofrancafernandes/f2-laravel-enums/zipball/137ef0d1a659feb2c86eab6e1418cb9f10229a0f",
-                "reference": "137ef0d1a659feb2c86eab6e1418cb9f10229a0f",
+                "url": "https://api.github.com/repos/tiagofrancafernandes/f2-laravel-enums/zipball/dd918a55bfc20d5e01780d03114414c530f5fc55",
+                "reference": "dd918a55bfc20d5e01780d03114414c530f5fc55",
                 "shasum": ""
             },
             "require": {
@@ -6604,9 +6719,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tiagofrancafernandes/f2-laravel-enums/issues",
-                "source": "https://github.com/tiagofrancafernandes/f2-laravel-enums/tree/v2.0.2"
+                "source": "https://github.com/tiagofrancafernandes/f2-laravel-enums/tree/v2.0.5"
             },
-            "time": "2023-06-10T20:35:01+00:00"
+            "time": "2023-06-14T02:47:56+00:00"
         },
         {
             "name": "tiagof2/f2-politool",
