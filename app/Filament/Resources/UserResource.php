@@ -10,7 +10,6 @@ use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Spatie\Permission\Models\Role;
 use Filament\Tables\Filters\Filter;
-use App\CoreLogic\Enums\LanguageEnum;
 use App\Enums\UserStatusEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;

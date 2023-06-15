@@ -22,6 +22,9 @@ return [
         '0.0.0.0',
         'localhost',
         'app.local',
+        'tiagofranca.com',
+        'dev-home.tiagofranca.com',
+        'app.local',
         'dev-home.tiagofranca.com',
     ],
 
