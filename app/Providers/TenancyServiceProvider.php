@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Jobs\CreateFrameworkDirectoriesForTenant;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -24,14 +25,17 @@ class TenancyServiceProvider extends ServiceProvider
             // Tenant events
             Events\CreatingTenant::class => [],
             Events\TenantCreated::class => [
-                JobPipeline::make([
-                    Jobs\CreateDatabase::class,
-                    Jobs\MigrateDatabase::class,
-                    // Jobs\SeedDatabase::class,
+                JobPipeline::make(
+                    [
+                        Jobs\CreateDatabase::class,
+                        Jobs\MigrateDatabase::class,
+                        CreateFrameworkDirectoriesForTenant::class,
+                        // Jobs\SeedDatabase::class,
 
-                    // Your own jobs to prepare the tenant.
-                    // Provision API keys, create S3 buckets, anything you want!
-                ])->send(fn (Events\TenantCreated $event) => $event->tenant)->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
+                        // Your own jobs to prepare the tenant.
+                        // Provision API keys, create S3 buckets, anything you want!
+                    ]
+                )->send(fn (Events\TenantCreated $event) => $event->tenant)->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
             ],
             Events\SavingTenant::class => [],
             Events\TenantSaved::class => [],
@@ -68,12 +72,8 @@ class TenancyServiceProvider extends ServiceProvider
             ],
 
             Events\EndingTenancy::class => [],
-            Events\TenancyEnded::class => [
-                Listeners\RevertToCentralContext::class,
-            ],
 
             Events\BootstrappingTenancy::class => [],
-            Events\TenancyBootstrapped::class => [],
             Events\RevertingToCentralContext::class => [],
             Events\RevertedToCentralContext::class => [],
 
@@ -84,6 +84,21 @@ class TenancyServiceProvider extends ServiceProvider
 
             // Fired only when a synced resource is changed in a different DB than the origin DB (to avoid infinite loops)
             Events\SyncedResourceChangedInForeignDatabase::class => [],
+
+            Events\TenancyBootstrapped::class => [
+                function (Events\TenancyBootstrapped $event) {
+                    // SPATIE LARAVEL PERMISSION
+                    \Spatie\Permission\PermissionRegistrar::$cacheKey = 'spatie.permission.cache.tenant.' . $event->tenancy->tenant->id;
+                },
+            ],
+
+            Events\TenancyEnded::class => [
+                function (Events\TenancyEnded $event) {
+                    // SPATIE LARAVEL PERMISSION
+                    \Spatie\Permission\PermissionRegistrar::$cacheKey = 'spatie.permission.cache';
+                },
+                Listeners\RevertToCentralContext::class,
+            ],
         ];
     }
 
@@ -113,12 +128,41 @@ class TenancyServiceProvider extends ServiceProvider
         }
     }
 
+    public function mapTenantWebRoutes()
+    {
+        if (file_exists(base_path('routes/web-tenant.php'))) {
+            Route::namespace(static::$controllerNamespace)
+                ->middleware(
+                    [
+                        'web',
+                        Middleware\InitializeTenancyByDomain::class,
+                        Middleware\PreventAccessFromCentralDomains::class,
+                    ]
+                )
+                ->group(base_path('routes/web-tenant.php'));
+        }
+    }
+
+    public function mapTenantApiRoutes()
+    {
+        if (file_exists(base_path('routes/api.php'))) {
+            Route::namespace(static::$controllerNamespace)
+                ->prefix('api')
+                ->middleware(
+                    [
+                        'api',
+                        Middleware\InitializeTenancyByDomain::class,
+                        Middleware\PreventAccessFromCentralDomains::class,
+                    ]
+                )
+                ->group(base_path('routes/api.php'));
+        }
+    }
+
     protected function mapRoutes()
     {
-        if (file_exists(base_path('routes/tenant.php'))) {
-            Route::namespace(static::$controllerNamespace)
-                ->group(base_path('routes/tenant.php'));
-        }
+        $this->mapTenantWebRoutes();
+        // $this->mapTenantApiRoutes();
     }
 
     protected function makeTenancyMiddlewareHighestPriority()

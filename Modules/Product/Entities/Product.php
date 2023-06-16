@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Product\Entities\ProductVariation> $variations
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Product\Entities\ProductVariation> $variations
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Product\Entities\ProductVariation> $variations
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Product\Entities\ProductVariation> $variations
  * @mixin \Eloquent
  */
 class Product extends Model

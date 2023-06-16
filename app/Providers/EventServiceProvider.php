@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\ClearCacheOfDomainListOnDomainUpdate;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        // \Stancl\Tenancy\Events\DomainUpdated::class => [
+        \Stancl\Tenancy\Events\UpdatingDomain::class => [
+            ClearCacheOfDomainListOnDomainUpdate::class,
         ],
     ];
 

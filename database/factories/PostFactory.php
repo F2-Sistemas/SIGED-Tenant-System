@@ -20,7 +20,7 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->words(asText: true),
+            'title' => $this->faker->words(10, asText: true),
             'content' => \str_repeat(
                 $this->faker->realText() . \PHP_EOL .
                     \PHP_EOL .
