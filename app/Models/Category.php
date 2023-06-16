@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
  * @mixin \Eloquent
  */
 class Category extends Model

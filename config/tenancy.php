@@ -24,8 +24,6 @@ return [
         'app.local',
         'tiagofranca.com',
         'dev-home.tiagofranca.com',
-        'app.local',
-        'dev-home.tiagofranca.com',
     ],
 
     /**

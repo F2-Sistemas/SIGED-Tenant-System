@@ -3,10 +3,10 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Models\User;
+use App\Enums\UserStatusEnum;
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\DB;
-use App\CoreLogic\Enums\StatusEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
@@ -41,7 +41,7 @@ class ManageUser extends Page
 
     protected function getFormActions(): array
     {
-        if ($this->record->status != StatusEnum::Closed->value) {
+        if ($this->record->status != UserStatusEnum::INACTIVE) {
             return [
                 $this->getSaveFormAction(),
                 $this->getCancelFormAction(),
@@ -79,15 +79,11 @@ class ManageUser extends Page
                 ->schema([
                     Select::make('status')->label(__('Status'))
                         ->options(function () {
-                            $filteredArray = [];
-
-                            foreach (StatusEnum::forUserToArray() as $key => $value) {
-                                if ($key != $this->record->status) {
-                                    $filteredArray[$key] = $value;
-                                }
-                            }
-
-                            return $filteredArray;
+                            return [
+                                ...UserStatusEnum::enums(false, true),
+                                $this->record->status => UserStatusEnum::getValue($this->record->status, true)
+                                    . ' (current)'
+                            ];
                         })
                         ->searchable()
                         ->required(),
@@ -105,6 +101,12 @@ class ManageUser extends Page
         DB::transaction(function () {
             $oldStatus = $this->record->status;
 
+            $statusExists = UserStatusEnum::enumExists($this->status);
+
+            if (!$statusExists) {
+                return;
+            }
+
             $this->record->updateStatus($this->status);
 
             activity()
@@ -112,9 +114,9 @@ class ManageUser extends Page
                 ->performedOn($this->record)
                 ->event('manage')
                 ->withProperties([
-                    'staus' => [
+                    'status' => [
                         'old_value' => $oldStatus,
-                        'new_value' => $this->status
+                        'new_value' => $this->status,
                     ]
                 ])
                 ->log($this->reason);
@@ -124,7 +126,7 @@ class ManageUser extends Page
         unset($this->reason);
 
         Notification::make()
-            ->title('Saved successfully')
+            ->title(__('Saved successfully'))
             ->success()
             ->send();
     }

@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
         User::updateOrCreate([
             'email' => 'admin@mail.com',
         ], [
+            'id' => '996b2511-6e07-42a2-b112-bddaaa7229fe',
             'name' => 'Admin',
             'email' => 'admin@mail.com',
             'email_verified_at' => now(),
@@ -24,5 +25,6 @@ class UserSeeder extends Seeder
         ]);
 
         User::factory(20)->create();
+        User::factory(20)->unverified()->create();
     }
 }
