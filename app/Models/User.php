@@ -14,6 +14,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasPermissions;
+use Filament\Models\Contracts\FilamentUser;
 
 /**
  * App\Models\User
@@ -66,12 +68,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
     use HasRoles;
+    use HasPermissions;
     use InteractsWithMedia;
     use HasEnum;
     use HasUuids;
@@ -119,5 +122,10 @@ class User extends Authenticatable implements HasMedia
     public function updateStatus(null|string|int $status): void
     {
         $this->status = UserStatusEnum::enumExists($status) ? $status : $this->status;
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->can('access filament');
     }
 }
