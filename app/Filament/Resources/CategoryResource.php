@@ -7,15 +7,19 @@ use Filament\Tables;
 use App\Models\Category;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
-use Filament\Resources\Resource;
 use App\Filament\Resources\CategoryResource\Pages;
 
-class CategoryResource extends Resource
+class CategoryResource extends TenancyBaseResource
 {
     protected static ?string $model = Category::class;
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?string $navigationGroup = 'Blog';
     protected static ?int $navigationSort = 1;
+    protected static int $globalSearchResultsLimit = 50;
+    protected static string | array $middlewares = [];
+    protected static bool $shouldAuthorizeWithGate = true;
+    protected static bool $shouldIgnorePolicies = false;
+    protected static ?bool $tenantIsRequired = true;
 
     public static function form(Form $form): Form
     {

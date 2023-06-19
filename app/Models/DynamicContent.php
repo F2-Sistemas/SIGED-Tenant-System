@@ -65,9 +65,9 @@ class DynamicContent extends Model implements HasMedia
 {
     use HasFactory;
     // use HasUuid; // Cria uma coluna chmada uuid
+    // use BelongsToTenant; // tenant_id attribute/column
     use HasUuids;
     use InteractsWithMedia;
-    // use BelongsToTenant;
 
     protected $fillable = [
         'organization_id',

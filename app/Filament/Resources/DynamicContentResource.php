@@ -7,12 +7,12 @@ use Filament\Tables;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use App\Models\DynamicContent;
-use Filament\Resources\Resource;
+// use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use App\Filament\Resources\DynamicContentResource\Pages;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
-class DynamicContentResource extends Resource
+class DynamicContentResource extends TenancyBaseResource
 {
     protected static ?string $model = DynamicContent::class;
 

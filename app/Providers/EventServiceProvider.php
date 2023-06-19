@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Listeners\ClearCacheOfDomainListOnDomainUpdate;
+use App\Listeners\DevLogListener;
+use Filament\Events\ServingFilament;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,13 @@ class EventServiceProvider extends ServiceProvider
         // \Stancl\Tenancy\Events\DomainUpdated::class => [
         \Stancl\Tenancy\Events\UpdatingDomain::class => [
             ClearCacheOfDomainListOnDomainUpdate::class,
+        ],
+        // EventClass::class => [
+        //     DevLogListener::class,
+        // ],
+
+        ServingFilament::class => [
+            DevLogListener::class,
         ],
     ];
 

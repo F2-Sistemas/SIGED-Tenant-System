@@ -60,7 +60,7 @@ return [
     |
     */
 
-    'home_url' => '/',
+    'home_url' => '/' . env('FILAMENT_PATH', 'admin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +104,7 @@ return [
         'namespace' => 'App\\Filament\\Pages',
         'path' => app_path('Filament/Pages'),
         'register' => [
-            Pages\Dashboard::class,
+            // \App\Filament\Pages\Dashboard::class, // Não precis pois já está na pasta Filament/Pages
         ],
     ],
 
@@ -246,7 +246,7 @@ return [
                 'are_collapsible' => true,
             ],
 
-            'width' => '14rem', // default -> null ?? 20rem
+            'width' => null, // default -> null ?? 20rem
             'collapsed_width' => '4.5rem', // default -> null ?? 5.4rem // 0 hides if collapsed
         ],
     ],
