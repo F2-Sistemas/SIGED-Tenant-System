@@ -37,6 +37,7 @@ class TenantList extends Command
             ->each(function (Tenant $tenant) {
                 if (!$tenant->domains) {
                     $this->line("[Tenant] {$tenant->getTenantKeyName()}: {$tenant->getTenantKey()}");
+
                     return;
                 }
 

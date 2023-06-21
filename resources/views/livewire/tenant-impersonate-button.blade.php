@@ -1,3 +1,6 @@
+@props([
+    'tenantId' => null,
+])
 <div>
     <strong>ID: {{ $this->tenantGet('id') }}</strong>
     <button

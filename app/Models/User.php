@@ -5,17 +5,18 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserStatusEnum;
+use App\Traits\BelongsToTenant;
 use TiagoF2\Enums\Core\HasEnum;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasPermissions;
-use Filament\Models\Contracts\FilamentUser;
 
 /**
  * App\Models\User
@@ -78,6 +79,9 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     use InteractsWithMedia;
     use HasEnum;
     use HasUuids;
+    use BelongsToTenant;
+
+    protected $table = 'public.users';
 
     /**
      * The attributes that are mass assignable.

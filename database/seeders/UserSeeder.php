@@ -51,6 +51,10 @@ class UserSeeder extends Seeder
         // // Todos os papéis atuais serão removidor e substituido pelos informados no array
         // $user->syncRoles(['writer', 'admin']);
 
+        if (app()->isProduction()) {
+            return;
+        }
+
         User::factory(20)->create();
         User::factory(20)->unverified()->create();
     }

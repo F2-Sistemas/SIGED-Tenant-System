@@ -3,10 +3,8 @@
 namespace App\Listeners;
 
 use App\Models\Domain;
-use Illuminate\Queue\InteractsWithQueue;
-use \Stancl\Tenancy\Events\DomainUpdated;
-use \Stancl\Tenancy\Events\UpdatingDomain;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Stancl\Tenancy\Events\DomainUpdated;
+use Stancl\Tenancy\Events\UpdatingDomain;
 
 class ClearCacheOfDomainListOnDomainUpdate
 {
@@ -30,7 +28,7 @@ class ClearCacheOfDomainListOnDomainUpdate
 
         $cacheKey = implode('-', [
             'Tenant',
-            'domainsList',
+            'domainList',
             $domain->tenant_id,
         ]);
 

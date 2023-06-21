@@ -21,6 +21,7 @@ return new class() extends Migration {
             $table->string('language')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->string('tenant_id')->index()->nullable();
         });
     }
 

@@ -7,6 +7,22 @@ use Livewire\Component;
 
 class TenantImpersonateButton extends Component
 {
+    public function mount($tenantId = null)
+    {
+        \Log::info([
+            'tenantId' => $tenantId,
+            'line' => __FILE__ . ':' . __LINE__
+        ]); // TODO: remove this before final version
+    }
+
+    public function boot($tenantId = null)
+    {
+        \Log::info([
+            'tenantId' => $tenantId,
+            'line' => __FILE__ . ':' . __LINE__
+        ]); // TODO: remove this before final version
+    }
+
     public function render()
     {
         return view('livewire.tenant-impersonate-button');

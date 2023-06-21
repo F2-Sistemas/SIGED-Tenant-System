@@ -25,4 +25,8 @@ return [
     'filament' => [
         'access filament',
     ],
+    'tenant-management' => [
+        'view-tenant-list',
+        'impersonate-a-tenant',
+    ],
 ];

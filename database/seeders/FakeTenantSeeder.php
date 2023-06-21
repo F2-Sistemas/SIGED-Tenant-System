@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Tenant;
 use Illuminate\Database\Seeder;
-use Database\Seeders\DynamicContentSeeder;
-use Database\Seeders\CategoriesAndPostsSeeder;
 use Illuminate\Support\Collection;
 
 class FakeTenantSeeder extends Seeder
@@ -15,33 +13,62 @@ class FakeTenantSeeder extends Seeder
      */
     public function run(): void
     {
+        // $this->command->withProgressBar(['a', 'b'], fn ($item) => dump($item));
+
         // For secure reasons, NO SAVE this ENV on config
         $forceSeedInProd = env('FORCE_SEED_IN_PROD');
 
         if (app()->isProduction()) {
-            if (!$forceSeedInProd) {
-                \dump("Not running. Application in production mode");
+            $this->command->alert("!!!! CAUTION !!!!");
+
+            $this->command->alert("Not running. Application in production mode");
+            $choise = $this->command->ask(
+                question: 'Do you want continue? This can\'t be reverted! [yes/no]',
+                default: $forceSeedInProd ? 'yes' : 'no',
+            );
+
+            if (!in_array($choise, ['yes', 'no'])) {
+                $this->command->error('Wrong answer');
+
+                exit(400);
+            }
+
+            if ($choise === 'no') {
                 exit(0);
             }
 
-            echo \PHP_EOL;
-            \dump("!!!! CAUTION !!!!");
-            echo \PHP_EOL;
-            \dump("This application is in PRODUCTION mode");
+            $num1 = rand(1, 10);
+            $num2 = rand(1, 10);
+
+            $answer = $this->command->ask(
+                question: sprintf('To continue, answer: what is the result [ %s + %s ]?', $num1, $num2),
+            );
+
+            $rigthResult = $num1 + $num2;
+
+            if ($answer != $rigthResult) {
+                $this->command->error('Wrong answer');
+
+                exit(501);
+            }
+
+            $this->command->newLine(1);
+            $this->command->alert("This application is in PRODUCTION mode");
             \sleep(1);
-            \dump("Running in");
+            $this->command->alert("Running in");
             $wait = 5;
 
             if (is_numeric($wait) && $wait > 0) {
-                echo \PHP_EOL;
-                foreach(range(0, (int) $wait) as $i) {
-                    echo (($wait - $i) ?: '') . \PHP_EOL;
+                $this->command->newLine(1);
+
+                foreach (range(0, (int) $wait) as $i) {
+                    echo(($wait - $i) ?: '') . \PHP_EOL;
                     \sleep(1);
                 }
 
                 \sleep(1);
             }
-            \dump("Running now");
+            $this->command->alert("Running now");
         }
 
         collect([

@@ -9,7 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 // use Filament\Resources\Resource;
 use App\Filament\Resources\TenancyBaseResource as Resource;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Filament\Tables\Filters\Filter;
 use App\Enums\UserStatusEnum;
 use Filament\Forms\Components\Select;

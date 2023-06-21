@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\TenantModelInitHelpers;
+use Illuminate\Support\Facades\Cache;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
@@ -12,33 +14,60 @@ class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase;
     use HasDomains;
+    use TenantModelInitHelpers;
 
     protected $appends = [
-        'domains',
+        'domainList',
     ];
 
     /**
-     * Get all of the domainsList for the Tenant
+     * Get all of the domainList for the Tenant
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function domainsList(): HasMany
+    public function domainList(): HasMany
     {
         return $this->hasMany(Domain::class, 'tenant_id', 'id');
     }
 
-    public function getDomainsAttribute()
+    public function getDomainListAttribute()
     {
         $cacheKey = implode('-', [
             'Tenant',
-            'domainsList',
+            'domainList',
             $this->id,
         ]);
 
-        return \Illuminate\Support\Facades\Cache::remember(
+        return Cache::remember(
             $cacheKey,
             300 /*secs*/,
-            fn() => Domain::where('tenant_id', $this->id)->get(),
-        );;
+            fn () => Domain::where('tenant_id', $this->id)->get(),
+        );
+    }
+
+    /**
+     * function getByIdAndCache
+     *
+     * @param ?string $tenantId
+     *
+     * @return ?object
+     */
+    public static function getByIdAndCache(?string $tenantId): ?object
+    {
+        return Cache::remember(
+            "org-getByIdAndCache-{$tenantId}",
+            300,
+            fn () => Tenant::whereId($tenantId)->first()
+        );
+    }
+
+    /**
+     * Get all of the users for the Tenant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'id', 'tenant_id');
     }
 }

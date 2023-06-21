@@ -24,6 +24,7 @@ return [
         'app.local',
         'tiagofranca.com',
         'dev-home.tiagofranca.com',
+        'siged.local',
     ],
 
     /**
@@ -168,11 +169,11 @@ return [
      * understand which ones you want to enable.
      */
     'features' => [
-        Stancl\Tenancy\Features\UserImpersonation::class,
+        // Stancl\Tenancy\Features\UserImpersonation::class,
         // Stancl\Tenancy\Features\TelescopeTags::class,
         // Stancl\Tenancy\Features\UniversalRoutes::class,
         // Stancl\Tenancy\Features\TenantConfig::class, // https://tenancyforlaravel.com/docs/v3/features/tenant-config
-        Stancl\Tenancy\Features\CrossDomainRedirect::class, // https://tenancyforlaravel.com/docs/v3/features/cross-domain-redirect
+        // Stancl\Tenancy\Features\CrossDomainRedirect::class, // https://tenancyforlaravel.com/docs/v3/features/cross-domain-redirect
         // Stancl\Tenancy\Features\ViteBundler::class,
     ],
 
@@ -199,7 +200,7 @@ return [
      * Parameters used by the tenants:seed command.
      */
     'seeder_parameters' => [
-        '--class' => 'DatabaseSeeder', // root seeder class
+        '--class' => 'DatabaseSeederForTenants', // root seeder class
         // '--force' => true,
     ],
 ];

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Filament\Facades\Filament;
+use Filament\Navigation\UserMenuItem;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\ServiceProvider;
 use Filament\Navigation\NavigationGroup;
@@ -23,6 +24,23 @@ class PainelNavigationServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Filament::serving(function () {
+            Filament::registerUserMenuItems([
+                UserMenuItem::make()
+                    ->label('Settings')
+                    ->url(route('filament.pages.settings.index'))
+                    ->icon('heroicon-s-cog'),
+                // ...
+            ]);
+        });
+
+        Filament::serving(function () {
+            Filament::registerUserMenuItems([
+                'account' => UserMenuItem::make()->url(route('filament.pages.account-settings.index')),
+                // ...
+            ]);
+        });
+
         Filament::navigation(function (NavigationBuilder $builder): NavigationBuilder {
             $menuItems = \collect(static::filamentManager()->getResources())
                 ->filter(function ($item) {
@@ -35,8 +53,6 @@ class PainelNavigationServiceProvider extends ServiceProvider
                 ->map(fn ($item) => call_user_func_array([$item, 'getNavigationItems'], []));
 
             foreach (static::staticMenuItems() as $staticItem) {
-                \Log::info($staticItem->isHidden() ? 'hidden' : 'show');
-
                 if ($staticItem->isHidden()) {
                     continue;
                 }
@@ -80,10 +96,25 @@ class PainelNavigationServiceProvider extends ServiceProvider
             NavigationItem::make('dashboard')
                 ->label(__('filament::pages/dashboard.title'))
                 ->icon('carbon-dashboard')
+                ->isActiveWhen(fn () => request()->routeIs(
+                    'filament.pages.dashboard.*',
+                    'filament.pages.dashboard',
+                ))
+                ->url(route('filament.pages.dashboard')),
+
+            NavigationItem::make('impersonated_as')
+                ->label(
+                    __('general.tenant.acting_as', [
+                        'tenant' => tenant('id'),
+                    ])
+                )
+                ->icon('carbon-dashboard')
                 ->isActiveWhen(fn () => request()->routeIs("filament.pages.*"))
                 ->badge(100, color: 'primary')
-                ->hidden(fn () => !tenant())
-                ->url(route('filament.pages.dashboard')),
+                // ->visible(fn () => !tenant())
+                ->hidden(fn () => !tenant()) // TODO validate impersonation
+                ->url(route('filament.pages.dashboard'))
+            ,
         ];
     }
 }
