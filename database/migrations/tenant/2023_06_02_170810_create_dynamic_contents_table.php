@@ -12,7 +12,6 @@ return new class() extends Migration {
     {
         Schema::create('dynamic_contents', function (Blueprint $table) {
             $table->uuid('id')->index()->unique();
-            $table->uuid('organization_id')->index()->nullable(); // TODO: colocar FK da organização aqui (nova mig?)
             $table->string('slug')->index();
             $table->string('title')->index();
             $table->string('cover_image')->nullable();

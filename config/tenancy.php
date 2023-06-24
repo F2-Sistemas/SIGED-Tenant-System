@@ -109,6 +109,7 @@ return [
         'disks' => [
             'local',
             'public',
+            'tenant_base',
             // 's3',
         ],
 
@@ -132,7 +133,7 @@ return [
          * edge cases, it can cause issues (like using Passport with Vapor - see #196), so
          * you may want to disable this if you are experiencing these edge case issues.
          */
-        'suffix_storage_path' => true,
+        'suffix_storage_path' => (bool) env('TENANCY_SUFFIX_STORAGE_PATH', true),
 
         /**
          * By default, asset() calls are made multi-tenant too. You can use global_asset() and mix()

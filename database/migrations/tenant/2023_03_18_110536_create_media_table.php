@@ -5,12 +5,14 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
+    public static $defaultMorphKeyType = 'uuid';
+
     public function up(): void
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
 
-            $table->morphs('model');
+            $table->uuidMorphs('model');
             $table->uuid('uuid')->nullable()->unique();
             $table->string('collection_name');
             $table->string('name');

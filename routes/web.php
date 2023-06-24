@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\ImpersonateController;
+use App\Http\Controllers\Core\TenantStorageUrlController;
 use App\Http\Controllers\RedirectToAdminController;
 use App\Http\Livewire\Products\ListProducts;
 use App\Http\Livewire\Users\ListUsers;
 use Illuminate\Support\Facades\Route;
+
+TenantStorageUrlController::routes();
 
 Route::middleware([
     'auth',

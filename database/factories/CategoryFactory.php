@@ -12,7 +12,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->words(asText: true),
+            'name' => $this->faker->words(asText: true),
+            'slug' => fn($attrs) => str($attrs['name'])->slug()->toString(),
         ];
     }
 }

@@ -18,7 +18,6 @@ class DynamicContentFactory extends Factory
     public function definition(): array
     {
         return [
-            'organization_id' => fake()->uuid(),
             'slug' => fake()->slug(8, true),
             'title' => fake()->words(8, true),
             'cover_image' => \null,

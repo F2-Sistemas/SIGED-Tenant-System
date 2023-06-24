@@ -3,9 +3,13 @@
 namespace App\Traits;
 
 use App\Models\Tenant;
+use App\Traits\TenantStorageSet;
 
 trait TenancyEasyHelpers
 {
+    use TenantStorageSet;
+    use TenantStorageGet;
+
     /**
      * getTenancy function
      *
@@ -32,10 +36,10 @@ trait TenancyEasyHelpers
      * @param string|null $key
      * @return Tenant|null|mixed
      */
-    public static function getTenant($key = null): ?Tenant
+    public static function getTenant(?string $key = null): ?Tenant
     {
-        if (is_null($key)) {
-            static::getTenancy()?->tenant ?? \null;
+        if (is_null($key) || $key === '') {
+            return static::getTenancy()?->tenant ?? \null;
         }
 
         return optional(static::getTenancy()?->tenant ?? \null)->getAttribute($key) ?? null;
@@ -53,6 +57,8 @@ trait TenancyEasyHelpers
     {
         try {
             tenancy()->initialize(Tenant::find($tenantId));
+
+            static::tenantDiskInit();
 
             return true;
         } catch (\Throwable $th) {
@@ -75,6 +81,8 @@ trait TenancyEasyHelpers
     {
         try {
             tenancy()->end();
+
+            static::tenantDiskReset();
 
             return true;
         } catch (\Throwable $th) {

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
+use App\Helpers\TenantHelpers;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +34,8 @@ class InitializeImpersonatedTenant
             \session()->forget('impersonated_tenant');
             \session()->forget('impersonated_tenant_data');
 
+            TenantHelpers::tenantDiskReset();
+
             return $next($request);
         }
 
@@ -43,6 +46,8 @@ class InitializeImpersonatedTenant
             \session()->put('impersonated_tenant_data', $tenant);
             tenancy()->initialize($tenant);
         }
+
+        TenantHelpers::tenantDiskInit();
 
         return $next($request);
     }

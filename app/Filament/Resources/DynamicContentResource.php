@@ -22,7 +22,6 @@ class DynamicContentResource extends TenancyBaseResource
     {
         return $form
             ->schema([
-                // Forms\Components\TextInput::make('organization_id'),
                 Forms\Components\TextInput::make('title')
                     ->translateLabel()
                     ->required(),
@@ -31,12 +30,16 @@ class DynamicContentResource extends TenancyBaseResource
                     // ->unique()
                     ->disabledOn('edit')
                     ->required(),
+
                 Forms\Components\TextInput::make('small_description')
                     ->label(__('Small description'))
                     ->columnSpan(2),
+
                 SpatieMediaLibraryFileUpload::make('cover_image')
                     ->label(__('Cover image'))
+                    ->disk('tenant_base')
                     ->columnSpan(2),
+
                 Forms\Components\RichEditor::make('content')
                     ->toolbarButtons([
                         'attachFiles',
@@ -93,9 +96,6 @@ class DynamicContentResource extends TenancyBaseResource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('id'),
-                // Tables\Columns\TextColumn::make('organization_id'),
-
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('resources.dynamic_content.title'))
                     ->limit(20)

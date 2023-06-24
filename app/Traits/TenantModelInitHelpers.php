@@ -3,9 +3,12 @@
 namespace App\Traits;
 
 use App\Models\Tenant;
+use App\Traits\TenantStorageSet;
 
 trait TenantModelInitHelpers
 {
+    use TenantStorageSet;
+
     /**
      * function initialize
      *
@@ -18,6 +21,8 @@ trait TenantModelInitHelpers
         }
 
         \tenancy()->initialize($this);
+
+        static::tenantDiskInit();
 
         return $this->isInitialized();
     }
@@ -70,6 +75,7 @@ trait TenantModelInitHelpers
     public function end(): bool
     {
         \tenancy()->end();
+        static::tenantDiskReset();
 
         return !$this->isInitialized();
     }

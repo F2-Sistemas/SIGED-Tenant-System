@@ -57,7 +57,6 @@ class TenantList extends BaseWidget
     {
         return [
             Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
             Tables\Actions\Action::make('impersonate')
                 ->label(__('general.tenant.impersonate'))
                 ->url(fn (Tenant $record) => route('impersonate-tenant', $record?->id))
@@ -86,7 +85,7 @@ class TenantList extends BaseWidget
     protected function getTableBulkActions(): array
     {
         return [
-            Tables\Actions\DeleteBulkAction::make(),
+            //
         ];
     }
 

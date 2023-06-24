@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\TenantModelInitHelpers;
+use App\Traits\TenantStorageSet;
 use Illuminate\Support\Facades\Cache;
+use App\Traits\TenantModelInitHelpers;
+use App\Traits\TenantModelStorageHelpers;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
@@ -15,6 +17,8 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     use HasDatabase;
     use HasDomains;
     use TenantModelInitHelpers;
+    use TenantModelStorageHelpers;
+    use TenantStorageSet;
 
     protected $appends = [
         'domainList',

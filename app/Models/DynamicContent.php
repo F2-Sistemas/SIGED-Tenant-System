@@ -15,7 +15,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
  * App\Models\DynamicContent
  *
  * @property string $id
- * @property string|null $organization_id
  * @property string $slug
  * @property string $title
  * @property string|null $cover_image
@@ -70,7 +69,6 @@ class DynamicContent extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
-        'organization_id',
         'slug',
         'title',
         'cover_image',

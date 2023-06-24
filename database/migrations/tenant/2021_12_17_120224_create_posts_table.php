@@ -8,7 +8,8 @@ return new class() extends Migration {
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->index()->unique();
             $table->string('title');
             $table->string('slug')->index()->unique();
             $table->longText('content')->nullable();

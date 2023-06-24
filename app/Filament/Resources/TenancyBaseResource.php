@@ -2,14 +2,15 @@
 
 namespace App\Filament\Resources;
 
+use App\Helpers\TenantHelpers;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
-use App\Traits\TenancyEasyHelpers;
+// use App\Traits\TenancyEasyHelpers;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class TenancyBaseResource extends Resource
 {
-    use TenancyEasyHelpers;
+    // use TenancyEasyHelpers;
 
     protected static bool $shouldAuthorizeWithGate = true;
     protected static bool $shouldIgnorePolicies = false;
@@ -64,7 +65,7 @@ abstract class TenancyBaseResource extends Resource
             return;
         }
 
-        if (!static::hasInitializedTenant()) {
+        if (!TenantHelpers::hasInitializedTenant()) {
             \abort(
                 static::getErrorCodeIfHasNoTenantAndIsRequired(),
                 static::getErrorMessageIfHasNoTenantAndIsRequired(),
@@ -74,7 +75,7 @@ abstract class TenancyBaseResource extends Resource
 
     public static function canFalseHasNoTenantAndIsRequired(): ?false
     {
-        if (static::tenantIsRequired() && !static::hasInitializedTenant()) {
+        if (static::tenantIsRequired() && !TenantHelpers::hasInitializedTenant()) {
             return false;
         }
 
@@ -83,7 +84,7 @@ abstract class TenancyBaseResource extends Resource
 
     public static function registerNavigationItems(): void
     {
-        if (static::tenantIsRequired() && !static::hasInitializedTenant()) {
+        if (static::tenantIsRequired() && !TenantHelpers::hasInitializedTenant()) {
             return;
         }
 
@@ -92,7 +93,7 @@ abstract class TenancyBaseResource extends Resource
 
     public static function getNavigationItems(): array
     {
-        if (static::tenantIsRequired() && !static::hasInitializedTenant()) {
+        if (static::tenantIsRequired() && !TenantHelpers::hasInitializedTenant()) {
             return [];
         }
 
