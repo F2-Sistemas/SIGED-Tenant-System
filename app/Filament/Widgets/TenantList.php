@@ -56,7 +56,6 @@ class TenantList extends BaseWidget
     public function getTableActions(): array
     {
         return [
-            Tables\Actions\ViewAction::make(),
             Tables\Actions\Action::make('impersonate')
                 ->label(__('general.tenant.impersonate'))
                 ->url(fn (Tenant $record) => route('impersonate-tenant', $record?->id))

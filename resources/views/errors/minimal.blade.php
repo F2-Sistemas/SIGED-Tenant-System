@@ -18,8 +18,43 @@
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-            <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
+            <div class="_max-w-xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex justify-center items-center text-gray-500 pt-4 sm:justify-center sm:pt-0">
+                    @foreach ((array) config('app-extended.error_pages.links', []) as $item)
+                        @php
+                            $item = processLinkData($item);
+                        @endphp
+
+                        @if ($item?->can)
+                            @canNot($item?->can)
+                                @continue
+                            @endif
+                        @endif
+
+                        {!!
+                            $item
+                                ?->html()
+                                ?->class(['text-center'])
+                                ?->html('')
+                                ?->addChild(
+                                    html()
+                                        ?->element('h4')
+                                        ?->class([
+                                            'px-4',
+                                            'text-lg',
+                                            'text-center',
+                                            'tracking-wider',
+                                            'border-gray-400',
+                                            // 'border-r' => !$loop?->last,
+                                        ])
+                                        ?->html(__($item?->label ?? ''))
+                                )
+                            ?->toHtml()
+                        !!}
+                    @endforeach
+                </div>
+
+                <div class="flex justify-center items-center text-gray-500 pt-4 sm:justify-center sm:pt-0">
                     <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider">
                         @yield('code')
                     </div>
