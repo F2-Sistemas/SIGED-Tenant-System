@@ -284,3 +284,86 @@ if (!function_exists('processLinkData')) {
         return $linkData;
     }
 }
+
+if (!function_exists('isOdd')) {
+    /**
+     * function isOdd
+     *
+     * @param mixed $value
+     * @param bool $evaluatePrecision   if FALSE, will convert to integer and ignore mod
+     *
+     * @return bool
+     */
+    function isOdd(mixed $value, bool $evaluatePrecision = true): bool
+    {
+        if (!is_numeric($value)) {
+            return false;
+        }
+
+        if (!$evaluatePrecision) {
+            return (((int) $value) % 2) !== 0;
+        }
+
+        $values = explode('.', fmod($value, 1.0));
+
+        return (($values[1] ?? $value ?? 0) % 2) !== 0;
+    }
+}
+
+if (!function_exists('isEven')) {
+    /**
+     * function isEven
+     *
+     * @param mixed $value
+     * @param bool $evaluatePrecision   if FALSE, will convert to integer and ignore mod
+     *
+     * @return bool
+     */
+    function isEven(mixed $value, bool $evaluatePrecision = true): bool
+    {
+        if (!is_numeric($value)) {
+            return false;
+        }
+
+        if (!$evaluatePrecision) {
+            return (((int) $value) % 2) === 0;
+        }
+
+        $values = explode('.', fmod($value, 1.0));
+
+        return (($values[1] ?? $value ?? 0) % 2) === 0;
+    }
+}
+
+if (!function_exists('getIf')) {
+    /**
+     * function getIf
+     *
+     * @param mixed $value
+     * @param callable $condition
+     *
+     * @return mixed
+     */
+    function getIf(mixed $value, callable $condition): mixed
+    {
+        return call_user_func($condition, $value) ? $value : null;
+    }
+}
+
+if (!function_exists('getIfOr')) {
+    /**
+     * function getIfOr
+     *
+     * @param mixed $value
+     * @param callable $condition
+     * @param mixed $optionalValue
+     *
+     * @return mixed
+     */
+    function getIfOr(mixed $value, callable $condition, mixed $optionalValue = null): mixed
+    {
+        return call_user_func($condition, $value) ? $value : (
+            is_a($optionalValue, 'Closure') ? $optionalValue($value) : $optionalValue
+        );
+    }
+}

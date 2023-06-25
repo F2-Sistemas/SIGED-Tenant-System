@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Arr;
+use App\Enums\OrcamentoTipoEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,18 @@ class OrcamentoFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'tipo' => Arr::random(OrcamentoTipoEnum::enumList(true)),
+            'ano_vigencia_inicio' => now()->setYear(
+                '20' . collect(range(10, date('y')))->filter(fn ($num) => ($num % 2 === 0))->random()
+            )->format('Y'),
+
+            'ano_vigencia_fim' => fn ($attr) => $attr['tipo'] == OrcamentoTipoEnum::PPA
+                ? now()->setYear(
+                    getIfOr($attr['ano_vigencia_inicio'], 'isEven', fn ($year) => $year - 1)
+                )->addYears(4)->format('Y')
+                : null,
+
+            'ative' => true,
         ];
     }
 }
