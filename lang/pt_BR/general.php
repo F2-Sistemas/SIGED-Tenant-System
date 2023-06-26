@@ -8,6 +8,7 @@ return [
         'impersonated_as' => 'Personificado como :tenant',
         'acting_as' => 'Atuando como :tenant',
         'remove_impersonated' => 'Encerrar personificação',
+        'tenant_info' => 'Ver detalhes',
     ],
     'users' => [
         'filters' => [

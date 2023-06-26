@@ -129,8 +129,10 @@ class ImpersonateTenantHelpers
      * @param null|User $user
      * @return bool
      */
-    public static function hasTenantOnSession(null|User $user): bool
+    public static function hasTenantOnSession(null|User $user = null): bool
     {
+        $user ??= Auth::user() ?? Filament::auth()->user();
+
         $initialValidation = static::canImpersonateATenant($user)
             && session('impersonated_tenant');
 

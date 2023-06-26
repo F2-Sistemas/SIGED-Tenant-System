@@ -2,15 +2,22 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use App\Models\Tenant;
 use Filament\Facades\Filament;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Filament\Navigation\UserMenuItem;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\ServiceProvider;
 use Filament\Navigation\NavigationGroup;
+use App\Helpers\ImpersonateTenantHelpers;
 use Filament\Navigation\NavigationBuilder;
 
 class PainelNavigationServiceProvider extends ServiceProvider
 {
+    protected static ?Tenant $impersonatedTenant = null;
+
     /**
      * Register services.
      */
@@ -20,10 +27,55 @@ class PainelNavigationServiceProvider extends ServiceProvider
     }
 
     /**
+     * getUser function
+     *
+     * @return User|null
+     */
+    public static function getUser(): ?User
+    {
+        return Auth::user() ?? Filament::auth()?->user();
+    }
+
+    /**
+     * getImpersonatedTenant function
+     *
+     * @return Tenant|null
+     */
+    public static function getImpersonatedTenant(): ?Tenant
+    {
+        return static::$impersonatedTenant ??= ImpersonateTenantHelpers::getImpersonatedTenant(static::getUser());
+    }
+
+    /**
      * Bootstrap services.
      */
     public function boot(): void
     {
+        // https://filamentphp.com/docs/2.x/admin/appearance#including-frontend-assets
+        Filament::registerScripts([
+            // 'https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@0.x.x/dist/cdn.min.js',
+            // 'https://unpkg.com/@victoryoalli/alpinejs-screen@1.0.0/dist/screen.min.js',
+            vite_asset('resources/js/before-head-end.js'),
+        ], true);
+
+        Filament::registerRenderHook(
+            'head.end',
+            fn (): View => view(
+                'customizations.head-end', [
+                    'impersonatedTenant' => static::getImpersonatedTenant(),
+                ]
+            ),
+        );
+
+        Filament::registerRenderHook(
+            'global-search.start',
+            fn (): View => view(
+                'tenants.impersonation-banner', [
+                    'impersonatedTenant' => static::getImpersonatedTenant(),
+                ]
+            ),
+        );
+
         Filament::serving(function () {
             Filament::registerUserMenuItems([
                 UserMenuItem::make()
@@ -101,20 +153,6 @@ class PainelNavigationServiceProvider extends ServiceProvider
                     'filament.pages.dashboard',
                 ))
                 ->url(route('filament.pages.dashboard')),
-
-            NavigationItem::make('impersonated_as')
-                ->label(
-                    __('general.tenant.acting_as', [
-                        'tenant' => tenant('id'),
-                    ])
-                )
-                ->icon('carbon-dashboard')
-                ->isActiveWhen(fn () => request()->routeIs("filament.pages.*"))
-                ->badge(100, color: 'primary')
-                // ->visible(fn () => !tenant())
-                ->hidden(fn () => !tenant()) // TODO validate impersonation
-                ->url(route('filament.pages.dashboard'))
-            ,
         ];
     }
 }

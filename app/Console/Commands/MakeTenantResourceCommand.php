@@ -2,14 +2,21 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Str;
+use Illuminate\Console\Command;
+// use Stancl\Tenancy\Concerns\HasATenantsOption;
+// use Stancl\Tenancy\Concerns\HasATenantArgument;
 use Filament\Forms\Commands\Concerns\CanGenerateForms;
 use Filament\Support\Commands\Concerns\CanIndentStrings;
-use Filament\Support\Commands\Concerns\CanManipulateFiles;
-use Filament\Support\Commands\Concerns\CanReadModelSchemas;
 use Filament\Support\Commands\Concerns\CanValidateInput;
 use Filament\Tables\Commands\Concerns\CanGenerateTables;
-use Illuminate\Console\Command;
-use Illuminate\Support\Str;
+use Filament\Support\Commands\Concerns\CanManipulateFiles;
+use Filament\Support\Commands\Concerns\CanReadModelSchemas;
+
+use App\Traits\Commands\TenantAwareCommand;
+use App\Traits\Commands\HasATenantArgument;
+use App\Traits\Commands\CantIgnoreEmptyTenantList;
+// use App\Traits\Commands\IgnoreEmptyTenantList;
 
 class MakeTenantResourceCommand extends Command
 {
@@ -20,9 +27,17 @@ class MakeTenantResourceCommand extends Command
     use CanReadModelSchemas;
     use CanValidateInput;
 
+    // https://tenancyforlaravel.com/docs/v3/tenant-aware-commands
+    use TenantAwareCommand;
+    // use HasATenantsOption; // multi tenant ID
+    use HasATenantArgument; // single tenant ID
+
+    use CantIgnoreEmptyTenantList; // When a tenant is required to run (like scoped model)
+    // use IgnoreEmptyTenantList; // When a tenant is not required to run (like NO scoped model)
+
     protected $description = 'Create a new Filament resource class and default page classes [with tenant rules]';
 
-    protected $signature = 'make:filament-resource-tenant {name?} {--soft-deletes} {--view} {--G|generate} {--S|simple} {--F|force}';
+    protected $signature = 'make:filament-resource-tenant {--soft-deletes} {--view} {--G|generate} {--S|simple} {--F|force}';
 
     public function handle(): int
     {
