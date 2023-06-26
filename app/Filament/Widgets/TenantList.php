@@ -59,7 +59,8 @@ class TenantList extends BaseWidget
             Tables\Actions\Action::make('impersonate')
                 ->label(__('general.tenant.impersonate'))
                 ->url(fn (Tenant $record) => route('impersonate-tenant', $record?->id))
-                ->icon('heroicon-s-user-circle'),
+                ->icon('heroicon-s-user-circle')
+                ->tooltip(fn (Tenant $record) => __('general.tenant.act_as', ['tenant' => $record?->id])),
         ];
     }
 

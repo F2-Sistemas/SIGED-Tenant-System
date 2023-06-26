@@ -58,13 +58,29 @@
     <x-filament::dropdown.list class="">
         @foreach (config('filament-language-switch.locales') as $key => $locale)
             @if (!app()->isLocale($key))
-                <x-filament::dropdown.list.item wire:click="changeLocale('{{ $key }}')" tag="button">
+                <x-filament::dropdown.list.item
+                    :href="route('end-impersonated-tenant')"
+                    tag="a"
+                >
                     <span
-                        class="w-6 h-6 flex items-center justify-center mr-4 flex-shrink-0 rtl:ml-4 @if (!app()->isLocale($key)) group-hover:bg-white group-hover:text-primary-600 group-hover:border group-hover:border-primary-500/10 group-focus:text-white @endif bg-primary-500/10 text-primary-600 font-semibold rounded-full p-1 text-xs">
-                        @svg('heroicon-s-identification')
+                        @class([
+                            'w-6',
+                            'h-6',
+                            'flex',
+                            'items-center',
+                            'justify-center',
+                            'mr-4',
+                            'flex-shrink-0',
+                            'rtl:ml-4',
+                            'font-semibold',
+                            'p-1',
+                            'text-xs',
+                        ])
+                    >
+                        @svg('heroicon-s-logout', 'h-5 w-5 shrink-0 inline')
                     </span>
                     <span class="hover:bg-transparent">
-                        {{ \Illuminate\Support\Str::of($locale[config('filament-language-switch.native') ? 'native' : 'name'])->headline() }}
+                        @lang('general.tenant.remove_impersonated')
                     </span>
                 </x-filament::dropdown.list.item>
             @endif

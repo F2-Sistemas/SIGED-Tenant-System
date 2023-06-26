@@ -4,6 +4,7 @@ return [
     'tenant' => [
         'impersonate' => 'Personificar',
         'impersonate_as' => 'Personificar como :tenant',
+        'act_as' => 'Agir como :tenant',
         'impersonated' => 'Personificado',
         'impersonated_as' => 'Personificado como :tenant',
         'acting_as' => 'Atuando como :tenant',

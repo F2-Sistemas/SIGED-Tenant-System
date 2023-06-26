@@ -51,7 +51,6 @@
                             @svg('heroicon-s-logout', 'h-5 w-5 shrink-0 inline')
                             @lang('general.tenant.remove_impersonated')
                         </a>
-
                     </div>
                 </div>
 
