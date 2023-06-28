@@ -22,3 +22,4 @@ _ide_*
 .phpstorm.meta.php
 
 *no*commit*
+docker-compose.yml
