@@ -13,7 +13,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->words(asText: true),
-            'slug' => fn($attrs) => str($attrs['name'])->slug()->toString(),
+            'slug' => fn ($attrs) => str($attrs['name'])->slug()->toString(),
         ];
     }
 }
