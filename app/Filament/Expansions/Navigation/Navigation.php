@@ -12,10 +12,15 @@ use Filament\Navigation\NavigationItem;
 use Filament\Navigation\NavigationGroup;
 use App\Helpers\ImpersonateTenantHelpers;
 use Filament\Navigation\NavigationBuilder;
+use App\Filament\Traits\NavigationCollectResource;
 
 class Navigation
 {
     protected static ?Tenant $impersonatedTenant = null;
+    protected static array $menuItems = [
+        'withoutGroups' => [],
+        'groups' => [],
+    ];
 
     /**
      * getUser function
@@ -37,6 +42,19 @@ class Navigation
         return static::$impersonatedTenant ??= ImpersonateTenantHelpers::getImpersonatedTenant(static::getUser());
     }
 
+    public static function mapItems($navigationItems) : void
+    {
+        foreach (($navigationItems ?? []) as $navigationItem) {
+            $group = $navigationItem->getGroup();
+            if (!$group) {
+                static::$menuItems['withoutGroups'][] = $navigationItem;
+                continue;
+            }
+
+            static::$menuItems['groups'][$group][] = $navigationItem;
+        }
+    }
+
     /**
      * Bootstrap services.
      */
@@ -45,16 +63,19 @@ class Navigation
         Hooks::renderHooks();
 
         Filament::serving(function () {
+            Filament::registerNavigationGroups([
+                ...static::registerGroups(),
+                // ...
+            ]);
+
             Filament::registerUserMenuItems([
                 UserMenuItem::make()
-                    ->label('Settings')
+                    ->label(__('Settings'))
                     ->url(route('filament.pages.settings.index'))
                     ->icon('heroicon-s-cog'),
                 // ...
             ]);
-        });
 
-        Filament::serving(function () {
             Filament::registerUserMenuItems([
                 'account' => UserMenuItem::make()->url(route('filament.pages.account-settings.index')),
                 // ...
@@ -62,34 +83,21 @@ class Navigation
         });
 
         Filament::navigation(function (NavigationBuilder $builder): NavigationBuilder {
-            $menuItems = \collect(static::filamentManager()->getResources())
-                ->filter(function ($item) {
-                    return in_array(
-                        $item,
-                        (array) config('navigation.enabled_resources', []),
-                        true
-                    );
-                })
-                ->map(fn ($item) => call_user_func_array([$item, 'getNavigationItems'], []));
-
-            foreach (static::staticMenuItems() as $staticItem) {
-                if ($staticItem->isHidden()) {
-                    continue;
-                }
-
-                $builder->item($staticItem);
+            foreach (config('navigation.enabled_resources', static::filamentManager()->getResources()) as $item) {
+                static::mapItems(call_user_func([$item, 'getNavigationItems']));
             }
 
-            return $builder->items([
-                // ...static::staticMenuItems(),
-                ...$menuItems->flatten()->all(),
-            ]);
+            static::mapItems(static::staticMenuItems());
 
-            // return $builder
-            //     ->groups([
-            //         NavigationGroup::make('Website')
-            //             ->items([]),
-            //     ]);
+            // \App\Filament\Resources\UserResource::registerNavigationItems();
+
+            $builder->items(static::$menuItems['withoutGroups'] ?? []);
+
+            foreach(static::$menuItems['groups'] as $groupName => $groupItems) {
+                $builder->group($groupName, $groupItems, true);
+            }
+
+            return $builder;
         });
     }
 
@@ -120,7 +128,39 @@ class Navigation
                     'filament.pages.dashboard.*',
                     'filament.pages.dashboard',
                 ))
-                ->url(route('filament.pages.dashboard')),
+            ->url(route('filament.pages.dashboard')),
+
+            NavigationItem::make('Analytics')
+            ->url('https://filament.pirsch.io', shouldOpenInNewTab: true)
+            ->icon('heroicon-o-presentation-chart-line')
+            ->activeIcon('heroicon-s-presentation-chart-line')
+            ->group('Reports')
+            ->sort(3),
+        ];
+    }
+
+    /**
+     * function registerGroups
+     *
+     * @return array
+     */
+    public static function registerGroups(): array
+    {
+        return [
+            NavigationGroup::make()
+                ->label('Shop')
+                ->icon('heroicon-s-shopping-cart'),
+            NavigationGroup::make()
+                ->label('Blog')
+                ->icon('heroicon-s-pencil'),
+            NavigationGroup::make()
+                ->label('Settings')
+                ->icon('heroicon-s-cog')
+                ->collapsed(),
+            NavigationGroup::make()
+                ->label('Reports')
+                ->icon('heroicon-o-presentation-chart-line') //'heroicon-s-presentation-chart-line'
+                ->collapsed(),
         ];
     }
 }

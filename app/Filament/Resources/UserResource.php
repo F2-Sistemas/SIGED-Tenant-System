@@ -3,34 +3,36 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Tables;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
 // use Filament\Resources\Resource;
-use App\Filament\Resources\TenancyBaseResource as Resource;
-use App\Models\Role;
-use Filament\Tables\Filters\Filter;
 use App\Enums\UserStatusEnum;
+use Filament\Resources\Table;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\TenancyBaseResource as Resource;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use App\Filament\Resources\UserResource\Pages\DashboardUser;
-use App\Filament\Resources\UserResource\Pages\ListActivitiesUser;
 use AymanAlhattami\FilamentPageWithSidebar\PageNavigationItem;
 use AymanAlhattami\FilamentPageWithSidebar\FilamentPageSidebar;
+use App\Filament\Resources\UserResource\Pages\ListActivitiesUser;
 use App\Filament\Resources\UserResource\Pages\ListUserActivitiesUser;
-use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 3;
 
     public static function getPermissionPrefixes(): array
     {
@@ -100,8 +102,7 @@ class UserResource extends Resource
                     ->url(fn () => static::getUrl('activities', ['record' => $record->id]))->icon('heroicon-o-collection')
                     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.activities'))
                     ->badge(Activity::query()->where([['subject_type', '=', User::class], ['subject_id', '=', $record->id]])->count())
-                    ->isHiddenWhen(false)
-                ,
+                    ->isHiddenWhen(false),
             ]);
     }
 

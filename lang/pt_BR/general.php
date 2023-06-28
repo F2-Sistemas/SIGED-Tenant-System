@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'created_at' => 'criado em',
+    'updated_at' => 'atualizado em',
     'tenant' => [
         'impersonate' => 'Personificar',
         'impersonate_as' => 'Personificar como :tenant',
@@ -25,6 +27,19 @@ return [
         ],
         'account_settings' => [
             'title' => 'Perfil',
+        ],
+    ],
+    'orcamento' => [
+        'tipo' => 'Tipo',
+        'ano_vigencia_inicio' => 'Vigência inicio',
+        'ano_vigencia_fim' => 'Vigência fim',
+        'ative' => 'Ativo',
+        'filter' => [
+            'ano_vigencia_inicio' => 'Vigência inicio',
+            'ano_vigencia_fim' => 'Vigência fim',
+            'tipo_ldo' => 'Tipo LDO',
+            'tipo_loa' => 'Tipo LOA',
+            'tipo_ppa' => 'Tipo PPA',
         ],
     ],
 ];

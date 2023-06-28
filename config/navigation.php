@@ -16,5 +16,6 @@ return [
         \App\Filament\Resources\DynamicContentResource::class,
         \App\Filament\Resources\PostResource::class,
         \App\Filament\Resources\UserResource::class,
+        \App\Filament\Resources\OrcamentoResource::class,
     ],
 ];

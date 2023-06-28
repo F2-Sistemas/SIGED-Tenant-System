@@ -246,7 +246,7 @@ return [
                 'are_collapsible' => true,
             ],
 
-            'width' => null, // default -> null ?? 20rem
+            'width' => '15rem', // default -> null ?? 20rem
             'collapsed_width' => '4.5rem', // default -> null ?? 5.4rem // 0 hides if collapsed
         ],
     ],
