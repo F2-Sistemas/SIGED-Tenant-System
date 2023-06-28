@@ -73,7 +73,7 @@ abstract class TenancyBaseResource extends Resource
         }
     }
 
-    public static function canFalseHasNoTenantAndIsRequired(): ?false
+    public static function canFalseHasNoTenantAndIsRequired(): ?bool
     {
         if (static::tenantIsRequired() && !TenantHelpers::hasInitializedTenant()) {
             return false;

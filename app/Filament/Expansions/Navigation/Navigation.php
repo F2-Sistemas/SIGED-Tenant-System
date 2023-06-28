@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Filament\Expansions\Navigation;
 
 use App\Models\User;
 use App\Models\Tenant;
@@ -9,22 +9,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Filament\Navigation\UserMenuItem;
 use Filament\Navigation\NavigationItem;
-use Illuminate\Support\ServiceProvider;
 use Filament\Navigation\NavigationGroup;
 use App\Helpers\ImpersonateTenantHelpers;
 use Filament\Navigation\NavigationBuilder;
 
-class PainelNavigationServiceProvider extends ServiceProvider
+class Navigation
 {
     protected static ?Tenant $impersonatedTenant = null;
-
-    /**
-     * Register services.
-     */
-    public function register(): void
-    {
-        //
-    }
 
     /**
      * getUser function
@@ -49,32 +40,9 @@ class PainelNavigationServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      */
-    public function boot(): void
+    public static function bootItems(): void
     {
-        // https://filamentphp.com/docs/2.x/admin/appearance#including-frontend-assets
-        Filament::registerScripts([
-            // 'https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@0.x.x/dist/cdn.min.js',
-            // 'https://unpkg.com/@victoryoalli/alpinejs-screen@1.0.0/dist/screen.min.js',
-            vite_asset('resources/js/before-head-end.js'),
-        ], true);
-
-        Filament::registerRenderHook(
-            'head.end',
-            fn (): View => view(
-                'customizations.head-end', [
-                    'impersonatedTenant' => static::getImpersonatedTenant(),
-                ]
-            ),
-        );
-
-        Filament::registerRenderHook(
-            'global-search.start',
-            fn (): View => view(
-                'tenants.impersonation-banner', [
-                    'impersonatedTenant' => static::getImpersonatedTenant(),
-                ]
-            ),
-        );
+        Hooks::renderHooks();
 
         Filament::serving(function () {
             Filament::registerUserMenuItems([
