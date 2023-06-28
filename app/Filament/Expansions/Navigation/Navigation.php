@@ -130,12 +130,12 @@ class Navigation
                 ))
             ->url(route('filament.pages.dashboard')),
 
-            NavigationItem::make('Analytics')
-            ->url('https://filament.pirsch.io', shouldOpenInNewTab: true)
-            ->icon('heroicon-o-presentation-chart-line')
-            ->activeIcon('heroicon-s-presentation-chart-line')
-            ->group('Reports')
-            ->sort(3),
+            // NavigationItem::make('Analytics')
+            // ->url('https://filament.pirsch.io', shouldOpenInNewTab: true)
+            // ->icon('heroicon-o-presentation-chart-line')
+            // ->activeIcon('heroicon-s-presentation-chart-line')
+            // ->group('Reports')
+            // ->sort(3),
         ];
     }
 
