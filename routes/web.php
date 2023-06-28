@@ -21,7 +21,7 @@ Route::middleware([
     Route::get('end-impersonated-tenant', [ImpersonateController::class, 'end'])->name('end-impersonated-tenant');
 });
 
-Route::view('/', 'welcome');
+Route::get('/', RedirectToAdminController::class)->name('home');
 Route::get('/login', RedirectToAdminController::class)->name('login');
 
 Route::get('users', ListUsers::class);
