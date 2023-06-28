@@ -39,17 +39,6 @@ class TenantList extends BaseWidget
                 ->searchable()
                 ->limit(25)
                 ->label(__('ID')),
-            Tables\Columns\TextColumn::make('name')
-                ->searchable()
-                ->limit(25)
-                ->label(__('Name')),
-            Tables\Columns\TextColumn::make('email')
-                ->searchable()
-                ->limit(25)
-                ->label(__('Email'))
-                ->extraAttributes([
-                    'class' => 'overflow-hidden',
-                ], true),
         ];
     }
 
