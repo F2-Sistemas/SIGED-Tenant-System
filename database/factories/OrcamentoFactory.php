@@ -28,7 +28,7 @@ class OrcamentoFactory extends Factory
                 ? now()->setYear(
                     getIfOr($attr['ano_vigencia_inicio'], 'isEven', fn ($year) => $year - 1)
                 )->addYears(4)->format('Y')
-                : null,
+                : $attr['ano_vigencia_inicio'],
 
             'ative' => true,
         ];
