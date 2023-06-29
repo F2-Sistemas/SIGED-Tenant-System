@@ -38,6 +38,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|Post whereSlug($value)
  * @method static Builder|Post whereTitle($value)
  * @method static Builder|Post whereUpdatedAt($value)
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @mixin \Eloquent
  */
 class Post extends Model

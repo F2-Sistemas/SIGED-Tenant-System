@@ -4,7 +4,7 @@ namespace App\Filament\Resources\UserResource\Widgets;
 
 use Filament\Widgets\Widget;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Activitylog\Models\Activity;
+use App\Models\Activity;
 
 class UserLastLoginWidget extends Widget
 {

@@ -85,7 +85,7 @@ class ManageUser extends Page
                                     . ' (current)'
                             ];
                         })
-                        ->searchable()
+                        // ->searchable()
                         ->required(),
                     Textarea::make('reason')->label(__('Reason'))
                         ->required()
