@@ -20,6 +20,9 @@ use App\Filament\Resources\TenancyBaseResource;
 use App\Filament\Resources\OrcamentoResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrcamentoResource\RelationManagers;
+use AymanAlhattami\FilamentPageWithSidebar\PageNavigationItem;
+use AymanAlhattami\FilamentPageWithSidebar\FilamentPageSidebar;
+use App\Filament\Resources\OrcamentoResource\Pages\ListOrcamentoItems;
 
 class OrcamentoResource extends TenancyBaseResource
 {
@@ -177,10 +180,49 @@ class OrcamentoResource extends TenancyBaseResource
                     }),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+            ]);
+    }
+
+    public static function sidebar(Model $record): FilamentPageSidebar
+    {
+        return FilamentPageSidebar::make()
+            ->setTitle($record->ano_vigencia_inicio)
+            ->setDescription($record->created_at)
+            ->setNavigationItems([
+                // PageNavigationItem::make(__('User Dashboard'))
+                //     ->url(fn () => static::getUrl('dashboard', ['record' => $record->id]))->icon('heroicon-o-collection')
+                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.dashboard'))->isHiddenWhen(false),
+                // PageNavigationItem::make(__('View User'))
+                //     ->url(fn () => static::getUrl('view', ['record' => $record->id]))->icon('heroicon-o-collection')
+                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.view'))->isHiddenWhen(false),
+                // PageNavigationItem::make(__('Edit User'))
+                //     ->url(fn () => static::getUrl('edit', ['record' => $record->id]))->icon('heroicon-o-collection')
+                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.edit'))
+                //     ->isHiddenWhen(false),
+                // PageNavigationItem::make(__('Manage User'))
+                //     ->url(fn () => static::getUrl('manage', ['record' => $record->id]))->icon('heroicon-o-collection')
+                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.manage'))->isHiddenWhen(false),
+                // PageNavigationItem::make(__('Change Password'))
+                //     ->url(fn () => static::getUrl('password.change', ['record' => $record->id]))->icon('heroicon-o-collection')
+                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.password.change'))
+                //     ->isHiddenWhen(false),
+                PageNavigationItem::make(__('Itens'))
+                    ->url(fn () => static::getUrl('orcamento.items', ['record' => $record->id]))
+                    ->icon('heroicon-o-collection')
+                    ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.orcamento.items'))
+                    ->isHiddenWhen(false)
+                    // ->badge(Activity::query()->where([['causer_type', '=', Orcamento::class], ['causer_id', '=', $record->id]])->count())
+                    ,
+                // PageNavigationItem::make(__('Record Activities'))
+                //     ->url(fn () => static::getUrl('activities', ['record' => $record->id]))->icon('heroicon-o-collection')
+                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.activities'))
+                //     ->badge(Activity::query()->where([['subject_type', '=', User::class], ['subject_id', '=', $record->id]])->count())
+                //     ->isHiddenWhen(false),
             ]);
     }
 
@@ -197,6 +239,8 @@ class OrcamentoResource extends TenancyBaseResource
             'index' => Pages\ListOrcamentos::route('/'),
             'create' => Pages\CreateOrcamento::route('/create'),
             'edit' => Pages\EditOrcamento::route('/{record}/edit'),
+            'view' => Pages\ViewOrcamento::route('/{record}/view'),
+            'orcamento.items' => ListOrcamentoItems::route('/{record}/items'),
         ];
     }
 }

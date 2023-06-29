@@ -18,6 +18,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/tiagofrancafernandes/filament-custom-fields.git"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/tiagofrancafernandes/laravel-easyblade.git"
         }
     ],
@@ -43,6 +47,7 @@
         "spatie/laravel-permission": "^5.4",
         "stancl/tenancy": "^3.7",
         "tiagof2/f2-laravel-enums": "^2.0",
+        "yemenpoint/filament-custom-fields": "^2.0|v2.x-dev",
         "tiagof2/f2-politool": "^1.0|dev-master"
     },
     "require-dev": {

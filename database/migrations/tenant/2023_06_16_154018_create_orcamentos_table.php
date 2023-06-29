@@ -11,7 +11,7 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('orcamentos', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->index()->unique();
             $table->timestamps();
             $table->integer('tipo')->index(); // App\Enums\OrcamentoTipoEnum
             $table->integer('ano_vigencia_inicio')->index();

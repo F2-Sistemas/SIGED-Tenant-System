@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\Orcamento
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Orcamento extends Model
 {
     use HasFactory;
+    use HasUuids;
 
     protected $fillable = [
         'tipo',
@@ -28,4 +31,14 @@ class Orcamento extends Model
     protected $casts = [
         'ative' => 'boolean',
     ];
+
+    /**
+     * Get all of the items for the Orcamento
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrcamentoItem::class, 'orcamento_id', 'id');
+    }
 }
