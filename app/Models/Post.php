@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use App\Support\IdeHelper\TenantContext;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
@@ -41,6 +42,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|Post whereUpdatedAt($value)
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @mixin \Eloquent
  */
 class Post extends Model
@@ -50,6 +53,7 @@ class Post extends Model
     use InteractsWithMedia;
     use HasDatabase;
     use HasUuids;
+    use TenantContext;
 
     protected $guarded = [];
 

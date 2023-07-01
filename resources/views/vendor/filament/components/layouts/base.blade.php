@@ -72,6 +72,9 @@
         @endif
 
         {{ \Filament\Facades\Filament::renderHook('head.end') }}
+        @vite([
+            'resources/js/vendor/filament/after.head.end.hook.js',
+        ])
     </head>
 
     <body @class([

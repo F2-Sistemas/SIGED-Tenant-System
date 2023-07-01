@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Support\IdeHelper\TenantContext;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -32,12 +33,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Post> $posts
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @mixin \Eloquent
  */
 class Category extends Model
 {
     use HasFactory;
     use HasUuids;
+    use TenantContext;
 
     protected $fillable = [
         'name',

@@ -152,8 +152,7 @@ return [
     |
     */
 
-    'ignored_models' => [
-    ],
+    'ignored_models' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -196,8 +195,7 @@ return [
     |
     */
 
-    'interfaces' => [
-    ],
+    'interfaces' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -226,6 +224,7 @@ return [
     |
     */
     'custom_db_types' => [
+        //
     ],
 
     /*
@@ -335,6 +334,25 @@ return [
     |
     */
     'post_migrate' => [
-        // 'ide-helper:models --nowrite',
+        'run:composer-dump',
+        'ide-helper:models --nowrite',
+        'ide-helper:generate',
+        'ide-helper:eloquent',
+    ],
+
+    'tenant_context' => [
+        /**
+         * When:
+         * php artisan ide-helper:models
+         *
+         * Via option:
+         * --tenant_id=aTenantId
+         *  or
+         * -T aTenantId
+         *
+         * Example:
+         * php artisan ide-helper:models --tenant_id=cliente1
+         */
+        'tenant_id_on_migration' => env('TENANT_ID_ON_MIGRATION_CONTEXT'),
     ],
 ];

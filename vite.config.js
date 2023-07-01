@@ -15,6 +15,7 @@ export default defineConfig({
             ],
             refresh: [
                 ...refreshPaths,
+                'resources/js/vendor/filament/**',
                 'app/Http/Livewire/**',
                 'app/Tables/Columns/**',
             ],

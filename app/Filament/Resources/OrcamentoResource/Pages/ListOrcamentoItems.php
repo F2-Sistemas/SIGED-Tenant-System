@@ -68,7 +68,7 @@ class ListOrcamentoItems extends Page implements HasTable
             TextColumn::make('lei_data')
                 ->date('d/m/Y'),
             TextColumn::make('content')
-                ->tooltip(fn(?Model $record) => $record?->content)
+                ->tooltip(fn (?Model $record) => $record?->content)
                 ->limit(40),
 
             // TextColumn::make('event'),
@@ -101,6 +101,7 @@ class ListOrcamentoItems extends Page implements HasTable
                     'Login' => 'Login',
                 ])
                 ->searchable(),
+
             Filter::make('created_at')
                 ->form([
                     DatePicker::make('created_from')->label(trans('From Date')),

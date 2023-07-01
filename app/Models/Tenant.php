@@ -35,6 +35,16 @@ use Stancl\Tenancy\Database\Models\Tenant as BaseTenant;
  * @method static \Illuminate\Database\Eloquent\Builder|Tenant whereData($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tenant whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tenant whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Domain> $domainList
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Domain> $domains
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> all($columns = ['*'])
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> get($columns = ['*'])
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Domain> $domainList
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Domain> $domains
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> all($columns = ['*'])
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> get($columns = ['*'])
  * @mixin \Eloquent
  */
 class Tenant extends BaseTenant implements TenantWithDatabase

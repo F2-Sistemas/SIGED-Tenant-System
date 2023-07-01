@@ -31,7 +31,6 @@
         "aymanalhattami/filament-page-with-sidebar": "^1.0",
         "barryvdh/laravel-debugbar": "^3.8",
         "codeat3/blade-carbon-icons": "^2.13",
-        "doctrine/dbal": "^3.6",
         "filament/filament": "^2.17",
         "filament/spatie-laravel-media-library-plugin": "^2.17",
         "filament/tables": "^2.0",
