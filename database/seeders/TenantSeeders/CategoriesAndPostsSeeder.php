@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\TenantSeeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
@@ -18,7 +18,8 @@ class CategoriesAndPostsSeeder extends Seeder
             ->has(
                 Post::factory()
                     ->published()
-                    ->count(rand(5, 10))
+                    ->count(rand(5, 10)),
+                'posts'
             )
             ->create();
     }

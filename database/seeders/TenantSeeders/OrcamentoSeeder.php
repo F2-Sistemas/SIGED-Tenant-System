@@ -1,11 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\TenantSeeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class OrcamentoItemSeeder extends Seeder
+class OrcamentoSeeder extends Seeder
 {
     /**
      * Run the database seeds.

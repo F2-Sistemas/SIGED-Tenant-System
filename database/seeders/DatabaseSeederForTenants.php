@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\TenantSeeders\OrcamentoSeeder;
+use Database\Seeders\TenantSeeders\DynamicContentSeeder;
+use Database\Seeders\TenantSeeders\CategoriesAndPostsSeeder;
 
 class DatabaseSeederForTenants extends Seeder
 {

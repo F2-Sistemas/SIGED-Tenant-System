@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Stancl\Tenancy\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Stancl\Tenancy\Contracts\Tenant;

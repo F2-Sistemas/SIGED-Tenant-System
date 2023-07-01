@@ -8,7 +8,14 @@ return new class() extends Migration {
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->nullable()->after('id')->index();
+            $table->uuid('category_id')->nullable()->after('id')->index();
+        });
+    }
+
+    public function down()
+    {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('category_id');
         });
     }
 };

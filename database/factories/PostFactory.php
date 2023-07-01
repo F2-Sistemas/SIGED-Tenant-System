@@ -21,12 +21,12 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->words(10, asText: true),
-            'content' => \str_repeat(
+            'content' => 'fake-content' /* \str_repeat(
                 $this->faker->realText() . \PHP_EOL .
                     \PHP_EOL .
                     $this->faker->realText(),
                 rand(2, 9)
-            ),
+            ) */,
         ];
     }
 }
