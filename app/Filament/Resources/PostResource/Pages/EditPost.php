@@ -18,7 +18,7 @@ class EditPost extends EditRecord
             ->label(__('resources.post.open_post_url'))
                 ->disabled(fn ($record) => !$record?->published_at)
                 ->tooltip(__('Only published items can be viewed'))
-                ->url(fn ($record) => \route('posts.show', $record->slug))
+                ->url(fn ($record) => \route('filament.resources.posts.show', $record->slug))
                 ->openUrlInNewTab()
                 ->icon('heroicon-o-external-link'),
         ];

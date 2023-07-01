@@ -29,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             $this->mapApiRoutes();
             $this->mapWebRoutes();
+            $this->mapTenantStaticRoutes();
         });
     }
 
@@ -55,6 +56,16 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
+        }
+    }
+
+    protected function mapTenantStaticRoutes()
+    {
+        foreach ($this->centralDomains() as $domain) {
+            Route::domain($domain)
+                ->middleware(['api', 'web'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/tenant.php'));
         }
     }
 

@@ -12,9 +12,9 @@ class ExampleTest extends TestCase
      */
     public function testTheApplicationReturnsASuccessfulResponse(): void
     {
-        $response = $this->get('/');
+        $response = $this->get(route('filament.pages.dashboard'));
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('filament.pages.dashboard'));
+        $response->assertRedirect(route('filament.auth.login'));
     }
 }
