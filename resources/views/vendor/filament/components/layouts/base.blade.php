@@ -73,7 +73,7 @@
 
         {{ \Filament\Facades\Filament::renderHook('head.end') }}
         @vite([
-            'resources/js/vendor/filament/after.head.end.hook.js',
+            'resources/js/vendor/filament/after-head.end-hook.js',
         ])
     </head>
 

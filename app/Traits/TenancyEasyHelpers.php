@@ -86,7 +86,9 @@ trait TenancyEasyHelpers
 
             return true;
         } catch (\Throwable $th) {
-            if ($throwException ?? config('app.debug')) {
+            if (
+                $throwException || !app()->isProduction() || app('config')->get('app.debug')
+            ) {
                 throw $th;
             }
 

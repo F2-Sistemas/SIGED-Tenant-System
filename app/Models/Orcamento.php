@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $tipo
  * @property int $ano_vigencia_inicio
  * @property int|null $ano_vigencia_fim
- * @property bool|null $ative
+ * @property bool|null $active
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrcamentoItem> $items
  * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereAnoVigenciaFim($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereAnoVigenciaInicio($value)
@@ -44,11 +44,11 @@ class Orcamento extends Model
         'tipo',
         'ano_vigencia_inicio',
         'ano_vigencia_fim',
-        'ative',
+        'active',
     ];
 
     protected $casts = [
-        'ative' => 'boolean',
+        'active' => 'boolean',
     ];
 
     /**

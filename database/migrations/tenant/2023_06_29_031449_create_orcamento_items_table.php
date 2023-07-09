@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orcamento_items', function (Blueprint $table) {
-            // $table->id();
             $table->uuid('id')->index()->unique();
             $table->timestamps();
             $table->integer('lei_tipo')->index()->nullable(); // enum: municipal|estadual|federal

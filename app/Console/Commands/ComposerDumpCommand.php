@@ -29,7 +29,7 @@ class ComposerDumpCommand extends Command
     {
         $executableFinder = new ExecutableFinder();
         $composerPath = $executableFinder->find(
-            'composeraaa',
+            'composer',
             base_path('/composer.phar'),
             extraDirs: [
                 '/usr/bin/',
@@ -44,5 +44,7 @@ class ComposerDumpCommand extends Command
                 echo 'OUT > ' . $buffer;
             }
         });
+
+        $process->stop(3, SIGINT);
     }
 }

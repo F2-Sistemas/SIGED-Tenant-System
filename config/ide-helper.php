@@ -336,7 +336,6 @@ return [
     'post_migrate' => [
         'run:composer-dump',
         'ide-helper:models --nowrite',
-        'ide-helper:generate',
         'ide-helper:eloquent',
     ],
 

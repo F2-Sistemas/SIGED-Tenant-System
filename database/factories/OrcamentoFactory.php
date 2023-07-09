@@ -30,7 +30,7 @@ class OrcamentoFactory extends Factory
                 )->addYears(4)->format('Y')
                 : $attr['ano_vigencia_inicio'],
 
-            'ative' => true,
+            'active' => true,
         ];
     }
 }

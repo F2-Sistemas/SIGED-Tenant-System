@@ -91,6 +91,9 @@ class FakeTenantSeeder extends Seeder
              * @var Collection $tenantData
              */
             $tenantData = \collect($tenantData);
+
+            echo "Tenant ID: {$tenantData->get('id')}" . PHP_EOL;
+
             $tenant = Tenant::updateOrCreate(
                 [
                     'id' => $tenantData->get('id'),
@@ -99,6 +102,8 @@ class FakeTenantSeeder extends Seeder
                     'domains',
                 ])->toArray()
             );
+
+            dump($tenant?->id);
 
             foreach (($tenant['domains'] ?? []) as $domain) {
                 $tenant->domains()->updateOrCreate([

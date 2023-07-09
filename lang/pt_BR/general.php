@@ -31,9 +31,10 @@ return [
     ],
     'orcamento' => [
         'tipo' => 'Tipo',
+        'vigencia' => 'Vigência',
         'ano_vigencia_inicio' => 'Vigência inicio',
         'ano_vigencia_fim' => 'Vigência fim',
-        'ative' => 'Ativo',
+        'active' => 'Ativo',
         'filter' => [
             'ano_vigencia_inicio' => 'Vigência inicio',
             'ano_vigencia_fim' => 'Vigência fim',
@@ -41,5 +42,11 @@ return [
             'tipo_loa' => 'Tipo LOA',
             'tipo_ppa' => 'Tipo PPA',
         ],
+    ],
+    'orcamento_item' => [
+        'lei_tipo' => 'tipo da lei',
+        'lei_numero' => 'numero da lei',
+        'lei_data' => 'data da lei',
+        'content' => 'Conteúdo',
     ],
 ];

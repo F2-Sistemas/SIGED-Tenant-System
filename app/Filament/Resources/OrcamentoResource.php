@@ -84,8 +84,8 @@ class OrcamentoResource extends TenancyBaseResource
                             ->required(fn (callable $get) => $get('tipo') == OrcamentoTipoEnum::PPA),
                     ]),
 
-                Forms\Components\Toggle::make('ative')
-                    ->label(__('general.orcamento.ative')),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('general.orcamento.active')),
             ]);
     }
 
@@ -93,6 +93,24 @@ class OrcamentoResource extends TenancyBaseResource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('tipo')
+                    ->formatStateUsing(fn ($state) => str(OrcamentoTipoEnum::get($state)))
+                    ->tooltip(fn (?Model $record) => $record ? OrcamentoTipoEnum::get($record?->tipo) : '')
+                    ->sortable()
+                    ->label(__('general.orcamento.tipo')),
+
+                Tables\Columns\TextColumn::make('ano_vigencia_inicio')
+                    ->sortable()
+                    ->searchable(isIndividual: true)
+                    ->formatStateUsing(
+                        fn (?Model $record) => "{$record?->ano_vigencia_inicio}/{$record?->ano_vigencia_fim}"
+                    )
+                    ->label(__('general.orcamento.vigencia')),
+
+                Tables\Columns\IconColumn::make('active')
+                    ->label(__('general.orcamento.active'))
+                    ->boolean(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('general.created_at'))
                     ->toggleable()
@@ -104,26 +122,6 @@ class OrcamentoResource extends TenancyBaseResource
                     ->toggleable()
                     ->toggledHiddenByDefault()
                     ->dateTime(),
-
-                Tables\Columns\TextColumn::make('tipo')
-                    ->formatStateUsing(fn ($state) => str(OrcamentoTipoEnum::get($state))->limit(3, ''))
-                    ->tooltip(fn (?Model $record) => $record ? OrcamentoTipoEnum::get($record?->tipo) : '')
-                    ->sortable()
-                    ->label(__('general.orcamento.tipo')),
-
-                Tables\Columns\TextColumn::make('ano_vigencia_inicio')
-                    ->sortable()
-                    ->searchable(isIndividual: true)
-                    ->label(__('general.orcamento.ano_vigencia_inicio')),
-
-                Tables\Columns\TextColumn::make('ano_vigencia_fim')
-                    ->sortable()
-                    ->searchable(isIndividual: true)
-                    ->label(__('general.orcamento.ano_vigencia_fim')),
-
-                Tables\Columns\IconColumn::make('ative')
-                    ->label(__('general.orcamento.ative'))
-                    ->boolean(),
             ])
             ->filters([
                 // https://filamentphp.com/docs/2.x/tables/filters#custom-filter-formshttps://filamentphp.com/docs/2.x/tables/filters#custom-filter-forms
@@ -216,8 +214,8 @@ class OrcamentoResource extends TenancyBaseResource
                     ->icon('heroicon-o-collection')
                     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.orcamento.items'))
                     ->isHiddenWhen(false)
-                    // ->badge(Activity::query()->where([['causer_type', '=', Orcamento::class], ['causer_id', '=', $record->id]])->count())
-                    ,
+                // ->badge(Activity::query()->where([['causer_type', '=', Orcamento::class], ['causer_id', '=', $record->id]])->count())
+                ,
                 // PageNavigationItem::make(__('Record Activities'))
                 //     ->url(fn () => static::getUrl('activities', ['record' => $record->id]))->icon('heroicon-o-collection')
                 //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.activities'))

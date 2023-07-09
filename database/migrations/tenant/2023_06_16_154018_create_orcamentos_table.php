@@ -11,12 +11,13 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::create('orcamentos', function (Blueprint $table) {
-            $table->uuid('id')->index()->unique();
+            $table->uuid('id')->unique();
             $table->timestamps();
             $table->integer('tipo')->index(); // App\Enums\OrcamentoTipoEnum
             $table->integer('ano_vigencia_inicio')->index();
             $table->integer('ano_vigencia_fim')->nullable()->index();
             $table->boolean('ative')->index()->nullable()->default(true);
+            $table->primary('id');
         });
     }
 

@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('{{ table }}', function (Blueprint $table) {
-            $table->timestamps();
-            // $table->id();
-            $table->uuid('id')->unique();
-            $table->primary('id');
+        Schema::table('orcamentos', function (Blueprint $table) {
+            $table->renameColumn('ative', 'active')->change();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('{{ table }}');
+        Schema::table('orcamentos', function (Blueprint $table) {
+            $table->renameColumn('active', 'ative')->change();
+        });
     }
 };
