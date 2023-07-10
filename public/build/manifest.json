@@ -1,0 +1,30 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-8ee90dd7.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/css/before-head-end.css": {
+    "file": "assets/before-head-end-501bb27c.css",
+    "isEntry": true,
+    "src": "resources/css/before-head-end.css"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-e3198dd7.js",
+    "imports": [
+      "resources/js/before-head-end.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/before-head-end.js": {
+    "file": "assets/before-head-end-e450909e.js",
+    "isEntry": true,
+    "src": "resources/js/before-head-end.js"
+  },
+  "resources/js/vendor/filament/after-head.end-hook.js": {
+    "file": "assets/after-head.end-hook-9907f89e.js",
+    "isEntry": true,
+    "src": "resources/js/vendor/filament/after-head.end-hook.js"
+  }
+}
