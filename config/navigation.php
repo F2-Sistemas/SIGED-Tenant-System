@@ -12,10 +12,10 @@ return [
 
     'enabled_resources' => [
         // \AlexJustesen\FilamentSpatieLaravelActivitylog\Resources\ActivityResource::class,
-        \App\Filament\Resources\CategoryResource::class,
+        \App\Filament\Resources\OrcamentoResource::class,
         \App\Filament\Resources\DynamicContentResource::class,
+        \App\Filament\Resources\CategoryResource::class,
         \App\Filament\Resources\PostResource::class,
         \App\Filament\Resources\UserResource::class,
-        \App\Filament\Resources\OrcamentoResource::class,
     ],
 ];
