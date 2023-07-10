@@ -333,11 +333,11 @@ return [
     | The specified commands should run after migrations are finished running.
     |
     */
-    'post_migrate' => in_array(env('APP_ENV', 'production'), ['production', 'testing'], true) ? [] : [
+    'post_migrate' => env('APP_ENV', 'production') === 'local' && env('IDE_HELPER_POST_MIGRATE', false) === 'local'  ? [
         'run:composer-dump',
         'ide-helper:models --nowrite',
         'ide-helper:eloquent',
-    ],
+    ] : [],
 
     'tenant_context' => [
         /**
