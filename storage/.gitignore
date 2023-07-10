@@ -1,6 +1,7 @@
 *
 !.gitignore
 !app
-!logs
+!debugbar
 !framework
+!logs
 !tenants
