@@ -29,6 +29,8 @@ export default defineConfig({
                 'resources/js/vendor/filament/**',
                 'app/Http/Livewire/**',
                 'app/Tables/Columns/**',
+                'resources/views/components/**/**/**/*.blade.php',
+                'resources/views/components/siged/orcamento-items/**/*.blade.php',
             ],
         }),
     ],

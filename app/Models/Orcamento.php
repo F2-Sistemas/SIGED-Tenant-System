@@ -51,6 +51,10 @@ class Orcamento extends Model
         'active' => 'boolean',
     ];
 
+    protected $appends = [
+        'tipoValue'
+    ];
+
     /**
      * Get all of the items for the Orcamento
      *
@@ -59,5 +63,10 @@ class Orcamento extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrcamentoItem::class, 'orcamento_id', 'id');
+    }
+
+    public function getTipoValueAttribute()
+    {
+        return \App\Enums\OrcamentoTipoEnum::get($this->tipo) ?? null;
     }
 }

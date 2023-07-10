@@ -18,6 +18,9 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\OrcamentoResource;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class ListOrcamentoItems extends Page implements HasTable
@@ -42,12 +45,12 @@ class ListOrcamentoItems extends Page implements HasTable
 
     protected function getTitle(): string
     {
-        return '';
+        return __('general.orcamento_item.list_title');
     }
 
     public function getBreadcrumb(): ?string
     {
-        return trans("Mange OrcamentoItem");
+        return __('general.orcamento_item.list_title');
     }
 
     protected function getTableQuery(): Builder
@@ -62,12 +65,21 @@ class ListOrcamentoItems extends Page implements HasTable
     {
         return [
             TextColumn::make('lei_tipo')
+                ->label(__('general.orcamento_item.lei_tipo'))
                 ->enum(LeiEnum::enumList(tranlate: true)),
 
-            TextColumn::make('lei_numero'),
+            TextColumn::make('lei_numero')
+                ->label(__('general.orcamento_item.lei_numero'))
+                ->sortable()
+                ->searchable(),
+
             TextColumn::make('lei_data')
-                ->date('d/m/Y'),
+                ->label(__('general.orcamento_item.lei_data'))
+                ->sortable()
+                ->date(__('general.orcamento_item.date_format')),
+
             TextColumn::make('content')
+                ->label(__('general.orcamento_item.content'))
                 ->tooltip(fn (?Model $record) => $record?->content)
                 ->limit(40),
 
@@ -88,36 +100,78 @@ class ListOrcamentoItems extends Page implements HasTable
     protected function getTableFilters(): array
     {
         return [
-            SelectFilter::make('log_name')
-                ->options([
-                    'Resource' => 'Resource',
-                    'Access' => 'Access',
-                ])
-                ->searchable(),
-            SelectFilter::make('event')
-                ->options([
-                    'Created' => 'Created',
-                    'Updated' => 'Updated',
-                    'Login' => 'Login',
-                ])
+            SelectFilter::make('lei_tipo')
+                ->label(__('general.orcamento_item.lei_tipo'))
+                ->options(LeiEnum::enumList(tranlate: true))
                 ->searchable(),
 
-            Filter::make('created_at')
+            Filter::make('lei_numero')
                 ->form([
-                    DatePicker::make('created_from')->label(trans('From Date')),
-                    DatePicker::make('created_until')->label(trans('To Date'))->default(now()),
+                    TextInput::make('lei_numero_val')
+                        ->numeric()
+                        ->label(__('general.orcamento_item.lei_numero')),
                 ])
                 ->query(function (Builder $query, array $data): Builder {
                     return $query
                         ->when(
-                            $data['created_from'],
+                            (is_numeric($data['lei_numero_val'] ?? null) ? (int) $data['lei_numero_val'] : null),
+                            fn (Builder $query, $leiNumero): Builder => $query->where('lei_numero', 'like', "{$leiNumero}%"),
+                        );
+                }),
+
+            Filter::make('lei_data')
+                ->form([
+                    Fieldset::make('lei_data')
+                        ->label(__('general.orcamento_item.lei_data'))
+                        ->schema([
+                            Grid::make(2)
+                                ->schema([
+                                    DatePicker::make('lei_data_from')
+                                        ->label(__('general.from')),
+                                    DatePicker::make('lei_data_until')
+                                        // ->default(now())
+                                        ->label(__('general.until')),
+                                ]),
+                        ]),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['lei_data_from'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('lei_data', '>=', $date),
+                        )
+                        ->when(
+                            $data['lei_data_until'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('lei_data', '<=', $date),
+                        );
+                })->columnSpan(2),
+
+            Filter::make('created_at')
+                ->form([
+                    Fieldset::make('created_at')
+                        ->label(__('general.orcamento_item.created_at'))
+                        ->schema([
+                            Grid::make(2)
+                                ->schema([
+                                    DatePicker::make('created_at_from')
+                                        ->label(__('general.from')),
+                                    DatePicker::make('created_at_until')
+                                        // ->default(now())
+                                        ->label(__('general.until')),
+                                ]),
+                        ]),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['created_at_from'],
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                         )
                         ->when(
-                            $data['created_until'],
+                            $data['created_at_until'],
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                         );
-                })
+                })->columnSpan(2),
         ];
     }
 
@@ -129,7 +183,16 @@ class ListOrcamentoItems extends Page implements HasTable
     protected function applySearchToTableQuery(Builder $query): Builder
     {
         if (filled($searchQuery = $this->getTableSearchQuery())) {
-            $query->where('event', $searchQuery);
+            $query->where(function (Builder $subQuery) use ($searchQuery) {
+                $subQuery = $subQuery->where('content', $searchQuery);
+
+                if (is_numeric($searchQuery) && $searchQuery > 0) {
+                    $numericSearchQuery = (int) $searchQuery;
+                    $subQuery = $subQuery->orWhere('lei_numero', 'like', "{$numericSearchQuery}%");
+                }
+
+                return $subQuery;
+            });
         }
 
         return $query;
@@ -143,28 +206,18 @@ class ListOrcamentoItems extends Page implements HasTable
     protected function getTableActions(): array
     {
         return [
-            ViewAction::make()->form(function () {
-                return [
-                    TextInput::make('id'),
-                    TextInput::make('log_name'),
-                    TextInput::make('event'),
-                    TextInput::make('description'),
-                    TextInput::make('subject_type'),
-                    TextInput::make('subject_id'),
-                    TextInput::make('causer_type')
-                    // ->view('components.alerts.warning')
-                    ,
-                    // Card::make()
-                    //     ->statePath('currency')
-                    //     ->schema([
-                    //         TextInput::make('code'),
-                    //         TextInput::make('name'),
-                    //         TextInput::make('symbol'),
-                    //     ]),
-                    TextInput::make('created_at'),
-                    TextInput::make('updated_at'),
-                ];
-            }),
+            ViewAction::make()
+                ->modalWidth('4xl')
+                ->modalHeading(__('general.orcamento_item.detail_title'))
+                ->form(function () {
+                    return [
+                        \Filament\Forms\Components\ViewField::make('detail')
+                            ->view('components.siged.orcamento-items.detail.load', [
+                                'orcamento' => $this->record,
+                            ])
+                            ->columnSpanFull(),
+                    ];
+                }),
         ];
     }
 

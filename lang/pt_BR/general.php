@@ -1,8 +1,14 @@
 <?php
 
 return [
-    'created_at' => 'criado em',
-    'updated_at' => 'atualizado em',
+    'created_at' => 'Criado em',
+    'created_from' => 'Criado a partir de',
+    'created_until' => 'Criado até',
+    'updated_at' => 'Atualizado em',
+    'from' => 'De',
+    'until' => 'Até',
+    'from_date' => 'A partir da data',
+    'until_date' => 'Até a data',
     'tenant' => [
         'impersonate' => 'Personificar',
         'impersonate_as' => 'Personificar como :tenant',
@@ -44,9 +50,14 @@ return [
         ],
     ],
     'orcamento_item' => [
-        'lei_tipo' => 'tipo da lei',
-        'lei_numero' => 'numero da lei',
-        'lei_data' => 'data da lei',
+        'lei_tipo' => 'Tipo de lei',
+        'created_at' => 'Data de cadastro',
+        'lei_numero' => 'Numero da lei',
+        'lei_data' => 'Data da lei',
+        'date_format' => 'd/m/Y',
+        'datetime_format' => 'd/m/Y H:i',
         'content' => 'Conteúdo',
+        'list_title' => 'Itens do orçamento',
+        'detail_title' => 'Item do orçamento',
     ],
 ];

@@ -75,6 +75,11 @@ class OrcamentoItem extends Model
      */
     protected $casts = [
         'aditional_data' => AsCollection::class,
+        'lei_data' => 'date',
+    ];
+
+    protected $appends = [
+        'leiTipoValue'
     ];
 
     /**
@@ -85,5 +90,10 @@ class OrcamentoItem extends Model
     public function orcamento(): BelongsTo
     {
         return $this->belongsTo(Orcamento::class, 'orcamento_id', 'id');
+    }
+
+    public function getLeiTipoValueAttribute()
+    {
+        return \App\Enums\LeiEnum::get($this->lei_tipo) ?? null;
     }
 }
