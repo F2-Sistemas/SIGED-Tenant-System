@@ -333,7 +333,7 @@ return [
     | The specified commands should run after migrations are finished running.
     |
     */
-    'post_migrate' => [
+    'post_migrate' => in_array(env('APP_ENV', 'production'), ['production', 'testing'], true) ? [] : [
         'run:composer-dump',
         'ide-helper:models --nowrite',
         'ide-helper:eloquent',
