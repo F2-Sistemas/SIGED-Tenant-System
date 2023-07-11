@@ -3,10 +3,10 @@
 @endphp
 
 <div
-    class="grid grid-cols-12 gap-4 sm:gap-5 lg:gap-6"
+    class="DIV1 grid grid-cols-12 gap-4 sm:gap-5 lg:gap-6"
 >
     <div
-        class="col-span-12 rounded"
+        class="DIV1-1 col-span-12 rounded"
         :class="{
             'md:col-span-2': $store.pageWithSidebar.isOpen,
             'md:col-span-1': !$store.pageWithSidebar.isOpen,
@@ -18,9 +18,9 @@
             '2xl:col-span-1': !$store.pageWithSidebar.isOpen,
         }"
     >
-        <div class="">
-            <div class="flex items-center rtl:space-x-reverse">
-                <div class="w-full">
+        <div class="DIV1-1-1 w-full">
+            <div class="grid grid-cols-2 gap-6 items-center rtl:space-x-reverse">
+                <div class="col-span-2">
                     <button
                         type="button"
                         class="filament-sidebar-collapse-button shrink-0 hidden lg:flex items-center justify-center w-10 h-10 text-primary-500 rounded-full outline-none hover:bg-gray-500/5 focus:bg-primary-500/10"
@@ -45,7 +45,7 @@
                 </div>
 
                 @if ($sidebar->getTitle() != null || $sidebar->getDescription() != null)
-                    <div class="w-full" x-show="$store.pageWithSidebar.isOpen">
+                    <div class="col-span-2" x-show="$store.pageWithSidebar.isOpen">
                         @if ($sidebar->getTitle() != null)
                             <h3 class="text-base font-medium text-slate-700 dark:text-navy-100 truncate block">
                                 {{ $sidebar->getTitle() }}
@@ -60,7 +60,10 @@
                     </div>
                 @endif
             </div>
-            <ul class="@if ($sidebar->getTitle() != null || $sidebar->getDescription() != null) mt-4 @endif space-y-2 font-inter font-medium" wire:ignore>
+            <ul
+                class="@if ($sidebar->getTitle() != null || $sidebar->getDescription() != null) mt-4 @endif space-y-2 font-inter font-medium"
+                wire:ignore
+            >
                 @foreach ($sidebar->getNavigationItems() as $item)
                     @if (!$item->isHidden())
                         <x-filament-page-with-sidebar::item
@@ -85,7 +88,7 @@
     </div>
 
     <div
-        class="col-span-12"
+        class="DIV1-2 col-span-12"
         :class="{
             'md:col-span-10': $store.pageWithSidebar.isOpen,
             'md:col-span-11': !$store.pageWithSidebar.isOpen,
@@ -97,6 +100,23 @@
             '2xl:col-span-11': !$store.pageWithSidebar.isOpen,
         }"
     >
+
+    @if ($sidebar->getTitle() != null || $sidebar->getDescription() != null)
+        <div class="col-span-12" x-show="!$store.pageWithSidebar.isOpen">
+            @if ($sidebar->getTitle() != null)
+                <h3 class="text-base font-medium text-slate-700 dark:text-navy-100 truncate block">
+                    {{ $sidebar->getTitle() }}
+                </h3>
+            @endif
+
+            @if ($sidebar->getDescription())
+                <p class="text-xs text-gray-500">
+                    {{ $sidebar->getDescription() }}
+                </p>
+            @endif
+        </div>
+    @endif
+
         {{ $slot }}
     </div>
 </div>

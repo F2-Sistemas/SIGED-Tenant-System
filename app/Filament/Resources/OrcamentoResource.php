@@ -22,7 +22,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrcamentoResource\RelationManagers;
 use AymanAlhattami\FilamentPageWithSidebar\PageNavigationItem;
 use AymanAlhattami\FilamentPageWithSidebar\FilamentPageSidebar;
+use App\Filament\Resources\OrcamentoResource\Pages\EditOrcamentoItem;
 use App\Filament\Resources\OrcamentoResource\Pages\ListOrcamentoItems;
+use App\Filament\Resources\OrcamentoResource\Pages\CreateOrcamentoItem;
 
 class OrcamentoResource extends TenancyBaseResource
 {
@@ -198,10 +200,10 @@ class OrcamentoResource extends TenancyBaseResource
                 // PageNavigationItem::make(__('View User'))
                 //     ->url(fn () => static::getUrl('view', ['record' => $record->id]))->icon('heroicon-o-collection')
                 //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.view'))->isHiddenWhen(false),
-                // PageNavigationItem::make(__('Edit User'))
-                //     ->url(fn () => static::getUrl('edit', ['record' => $record->id]))->icon('heroicon-o-collection')
-                //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.edit'))
-                //     ->isHiddenWhen(false),
+                PageNavigationItem::make(__('general.orcamento.edit'))
+                    ->url(fn () => static::getUrl('edit', ['record' => $record->id]))->icon('heroicon-o-collection')
+                    ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.edit'))
+                    ->isHiddenWhen(false),
                 // PageNavigationItem::make(__('Manage User'))
                 //     ->url(fn () => static::getUrl('manage', ['record' => $record->id]))->icon('heroicon-o-collection')
                 //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.manage'))->isHiddenWhen(false),
@@ -213,9 +215,19 @@ class OrcamentoResource extends TenancyBaseResource
                     ->url(fn () => static::getUrl('orcamento.items', ['record' => $record->id]))
                     ->icon('heroicon-o-collection')
                     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.orcamento.items'))
-                    ->isHiddenWhen(false)
-                // ->badge(Activity::query()->where([['causer_type', '=', Orcamento::class], ['causer_id', '=', $record->id]])->count())
-                ,
+                    ->isHiddenWhen(false),
+
+                PageNavigationItem::make(__('general.orcamento_item.create_action_label'))
+                    ->url(fn () => static::getUrl('orcamento.add_item', ['record' => $record->id]))
+                    ->icon('heroicon-s-plus')
+                    ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.orcamento.add_item'))
+                    ->isHiddenWhen(false),
+
+                PageNavigationItem::make(__('general.orcamento_item.edit_action_label'))
+                    ->url(fn () => static::getUrl('orcamento.edit_item', ['record' => $record->id]))
+                    ->icon('heroicon-s-plus')
+                    ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.orcamento.edit_item'))
+                    ->isHiddenWhen(false),
                 // PageNavigationItem::make(__('Record Activities'))
                 //     ->url(fn () => static::getUrl('activities', ['record' => $record->id]))->icon('heroicon-o-collection')
                 //     ->isActiveWhen(fn () => request()->routeIs(static::getRouteBaseName() . '.activities'))
@@ -239,6 +251,8 @@ class OrcamentoResource extends TenancyBaseResource
             'edit' => Pages\EditOrcamento::route('/{record}/edit'),
             'view' => Pages\ViewOrcamento::route('/{record}/view'),
             'orcamento.items' => ListOrcamentoItems::route('/{record}/items'),
+            'orcamento.add_item' => CreateOrcamentoItem::route('/{record}/add_item'),
+            'orcamento.edit_item' => EditOrcamentoItem::route('/{record}/edit_item'),
         ];
     }
 }

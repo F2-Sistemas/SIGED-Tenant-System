@@ -12,7 +12,7 @@ use App\Http\Middleware\InitializeImpersonatedTenant;
 
 class TenantStorageUrlController extends Controller
 {
-    public static $tenancyMiddleware = InitializeImpersonatedTenant::class;
+    public static \Closure|array|string $tenancyMiddleware = InitializeImpersonatedTenant::class;
 
     public function __construct()
     {

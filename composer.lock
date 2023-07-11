@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df32cb9220011f0db986f53eb5cf80f7",
+    "content-hash": "da05627e1f02c500bf8ac0b49c2fa0f1",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -157,21 +157,21 @@
         },
         {
             "name": "aymanalhattami/filament-page-with-sidebar",
-            "version": "1.1.5",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aymanalhattami/filament-page-with-sidebar.git",
-                "reference": "3fa7f97da879d3507599f6ffc7a59ff5745a446d"
+                "reference": "7ba704e9a2ae9d044ebbab2135c0996cdaee77fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aymanalhattami/filament-page-with-sidebar/zipball/3fa7f97da879d3507599f6ffc7a59ff5745a446d",
-                "reference": "3fa7f97da879d3507599f6ffc7a59ff5745a446d",
+                "url": "https://api.github.com/repos/aymanalhattami/filament-page-with-sidebar/zipball/7ba704e9a2ae9d044ebbab2135c0996cdaee77fa",
+                "reference": "7ba704e9a2ae9d044ebbab2135c0996cdaee77fa",
                 "shasum": ""
             },
             "require": {
-                "filament/filament": "^2.17",
-                "spatie/laravel-package-tools": "^1.14"
+                "filament/filament": "^2.0",
+                "spatie/laravel-package-tools": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -199,9 +199,9 @@
             "description": "Organize resource pages in sidebar instead of putting all the buttons and links elsewhere in order to make navigation between pages more confort",
             "support": {
                 "issues": "https://github.com/aymanalhattami/filament-page-with-sidebar/issues",
-                "source": "https://github.com/aymanalhattami/filament-page-with-sidebar/tree/1.1.5"
+                "source": "https://github.com/aymanalhattami/filament-page-with-sidebar/tree/1.1.6"
             },
-            "time": "2023-05-17T09:42:53+00:00"
+            "time": "2023-07-06T14:32:20+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -11668,8 +11668,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "rezaamini-ir/laravel-easyblade": 20,
-        "yemenpoint/filament-custom-fields": 20,
-        "tiagof2/f2-politool": 20
+        "tiagof2/f2-politool": 20,
+        "yemenpoint/filament-custom-fields": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

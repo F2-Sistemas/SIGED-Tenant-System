@@ -20,7 +20,9 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\OrcamentoResource;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Resources\Form;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class ListOrcamentoItems extends Page implements HasTable
@@ -36,6 +38,21 @@ class ListOrcamentoItems extends Page implements HasTable
     protected function getShieldRedirectPath(): string
     {
         return redirect()->back()->getTargetUrl();
+    }
+
+    protected function getActions(): array
+    {
+        return [
+            \Filament\Pages\Actions\Action::make('create')
+                ->button()
+                ->label(__('general.orcamento_item.create_action_label'))
+                ->icon('heroicon-s-plus')
+                ->iconPosition('before')
+                // ->modalHeading(__('general.orcamento_item.create_action_label'))
+                // ->form(fn () => $this->getFormSchema())
+                // ->mutateFormDataUsing(fn)
+                ->url(fn () => static::getResource()::getUrl('orcamento.add_item', ['record' => $this->record?->id])),
+        ];
     }
 
     public function hasTableColumnSearches(): bool
@@ -203,9 +220,18 @@ class ListOrcamentoItems extends Page implements HasTable
         return 2;
     }
 
+    // public function render(): \Illuminate\Contracts\View\View
+    // {
+    //     return view('list-posts');
+    // }
+
     protected function getTableActions(): array
     {
         return [
+            \Filament\Tables\Actions\EditAction::make()
+                ->modalWidth('4xl')
+                ->modalHeading(__('general.orcamento_item.edit_title'))
+                ->form(fn () => $this->getFormSchema()),
             ViewAction::make()
                 ->modalWidth('4xl')
                 ->modalHeading(__('general.orcamento_item.detail_title'))
@@ -224,8 +250,78 @@ class ListOrcamentoItems extends Page implements HasTable
     protected function getFormSchema(): array
     {
         return [
-            TextInput::make('id'),
-            TextInput::make('log_name'),
+            TextInput::make('lei_tipo'),
         ];
+
+        /* return [
+            Card::make()
+                ->schema([
+                    TextInput::make('warning_alert')
+                        ->dehydrated(false)
+                        ->view('components.alerts.warning', [
+                            'title' => __('general.orcamento_item.warning_alert_title'),
+                            'message' => __('general.orcamento_item.warning_alert_message'),
+                        ]),
+                ])
+                ->hidden(function (callable $get) {
+                    $requiredValueItems = [
+                        'lei_tipo',
+                        'lei_numero',
+                        'lei_data',
+                    ];
+
+                    return !array_filter(
+                        $requiredValueItems,
+                        fn ($item) => !$get($item)
+                    );
+                }),
+
+            Card::make()
+                ->label('Informações legais')
+                ->schema([
+                    Grid::make(3)
+                        ->schema([
+                            // Select::make('lei_tipo')
+                            //     ->label(__('general.orcamento_item.lei_tipo'))
+                            //     ->required()
+                            //     // ->in(fn() => LeiEnum::enumList(true))
+                            //     ->options(LeiEnum::enumList(tranlate: true)),
+
+                            // TextInput::make('lei_numero')
+                            //     ->label(__('general.orcamento_item.lei_numero'))
+                            //     ->numeric()
+                            //     ->required()
+                            //     ->minValue(1)
+                            //     ->rules([
+                            //         'numeric', 'required', 'min:1',
+                            //     ]),
+
+                            DatePicker::make('lei_data')
+                                ->label(__('general.orcamento_item.lei_data'))
+                                ->maxDate(now())
+                                ->required()
+                                ->displayFormat('d/m/Y'),
+                        ])
+                ])
+                ->columnSpanFull(),
+
+            RichEditor::make('content')
+                ->columnSpanFull(),
+
+            Fieldset::make('extra_info')
+                ->label(__('general.orcamento_item.aditional_data'))
+                ->schema([
+                    \Filament\Forms\Components\KeyValue::make('aditional_data')
+                        ->statePath('aditional_data')
+                        ->disableLabel()
+                        ->keyLabel(__('general.orcamento_item.aditional_data_key'))
+                        ->keyPlaceholder(__('general.orcamento_item.aditional_data_key_placeholder'))
+                        ->valueLabel(__('general.orcamento_item.aditional_data_value'))
+                        ->valuePlaceholder(__('general.orcamento_item.aditional_data_value_placeholder'))
+                        ->columnSpanFull()
+                        ->helperText(__('general.orcamento_item.aditional_data_help')),
+                ])
+                ->columnSpanFull(),
+        ]; */
     }
 }

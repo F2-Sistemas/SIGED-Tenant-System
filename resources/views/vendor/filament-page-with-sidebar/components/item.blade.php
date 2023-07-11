@@ -31,7 +31,7 @@
             x-tooltip.html="tooltip"
         @endif
         @class([
-            'flex items-center justify-center gap-3 px-3 py-2 rounded-lg font-medium transition',
+            'flex items-center justify-start gap-3 px-1 py-2 rounded-lg font-medium transition',
             'hover:bg-gray-500/5 focus:bg-gray-500/5' => ! $active,
             'dark:text-gray-300 dark:hover:bg-gray-700' => (! $active) && config('filament.dark_mode'),
             'bg-primary-500 text-white' => $active,

@@ -1,7 +1,13 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-    content: ['./resources/**/*.blade.php', './vendor/filament/**/*.blade.php'],
+    content: [
+        './resources/**/*.blade.php',
+        './vendor/filament/**/*.blade.php',
+        'resources/views/components/**/*.blade.php',
+        'resources/views/components/**/*.js',
+        'resources/views/components/siged/orcamento-items/**/*.blade.php',
+    ],
     theme: {
         extend: {
             colors: {

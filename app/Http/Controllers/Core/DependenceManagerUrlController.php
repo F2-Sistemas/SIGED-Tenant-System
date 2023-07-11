@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Helpers\TenantHelpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\InitializeImpersonatedTenant;
 
 class DependenceManagerUrlController extends Controller
 {
