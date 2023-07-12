@@ -148,6 +148,6 @@ class User extends Authenticatable implements HasMedia, FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->can('access filament');
+        return $this->can('painel:access');
     }
 }

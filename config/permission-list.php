@@ -15,6 +15,7 @@ return [
         'forceDeleteAny',
         'restore',
         'reorder',
+        'send-a-feedback',
     ],
     'article' => [
         'edit articles',
@@ -22,8 +23,8 @@ return [
         'publish articles',
         'unpublish articles',
     ],
-    'filament' => [
-        'access filament',
+    'painel' => [
+        'painel:access',
     ],
     'tenant-management' => [
         'view-tenant-list',

@@ -32,17 +32,20 @@ class RolesAndPermissionsSeeder extends Seeder
         \collect([
             'writer' => [
                 'edit articles',
+                'painel:access',
             ],
             'moderator' => [
                 'publish articles',
                 'unpublish articles',
+                'painel:access',
             ],
         ])->each(function ($rolePermissions, $roleName) {
             $role = Role::firstOrCreate(['name' => $roleName]);
-            $role->givePermissionTo($rolePermissions);
+            $role->syncPermissions($rolePermissions);
         });
 
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
-        $superAdminRole->givePermissionTo(Permission::all());
+        // $superAdminRole->givePermissionTo(Permission::all());
+        $superAdminRole->syncPermissions(Permission::all());
     }
 }
