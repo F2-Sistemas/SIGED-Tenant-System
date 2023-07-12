@@ -21,15 +21,7 @@ class InitializeImpersonatedTenant
     {
         $authUser = $request?->user() ?? Auth::user() ?? Filament::auth()->user();
 
-        if (!$authUser && !$authUser?->can('impersonate-a-tenant')) {
-            \tenancy()->end();
-
-            return $next($request);
-        }
-
-        $tenantId = \session('impersonated_tenant');
-
-        if (!$tenantId || !($tenant = Tenant::getByIdAndCache($tenantId))) {
+        if (!$authUser) {
             \tenancy()->end();
             \session()->forget('impersonated_tenant');
             \session()->forget('impersonated_tenant_data');
@@ -39,15 +31,34 @@ class InitializeImpersonatedTenant
             return $next($request);
         }
 
+        $impersonatedTenantId = \session('impersonated_tenant');
+
         \tenancy()->end();
+        TenantHelpers::tenantDiskReset();
+
+        if (!$impersonatedTenantId || !$authUser?->can('impersonate-a-tenant')) {
+            \session()->forget('impersonated_tenant');
+            \session()->forget('impersonated_tenant_data');
+
+            return $next($request);
+        }
+
+        $tenant = Tenant::getByIdAndCache($impersonatedTenantId);
+
+        if (!$impersonatedTenantId || !$tenant || !$tenant?->id || ($impersonatedTenantId != $tenant?->id)) {
+            \session()->forget('impersonated_tenant');
+            \session()->forget('impersonated_tenant_data');
+
+
+            return $next($request);
+        }
 
         if ($tenant) {
             \session()->put('impersonated_tenant', $tenant?->id);
             \session()->put('impersonated_tenant_data', $tenant);
             tenancy()->initialize($tenant);
+            TenantHelpers::tenantDiskInit();
         }
-
-        TenantHelpers::tenantDiskInit();
 
         return $next($request);
     }
