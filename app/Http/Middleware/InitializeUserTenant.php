@@ -10,7 +10,7 @@ use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class InitializeImpersonatedTenant
+class InitializeUserTenant
 {
     /**
      * Handle an incoming request.
@@ -23,39 +23,28 @@ class InitializeImpersonatedTenant
 
         if (!$authUser) {
             \tenancy()->end();
-            \session()->forget('impersonated_tenant');
-            \session()->forget('impersonated_tenant_data');
 
             TenantHelpers::tenantDiskReset();
 
             return $next($request);
         }
 
-        $impersonatedTenantId = \session('impersonated_tenant');
+        $userTenantId = $authUser?->tenant_id;
 
         \tenancy()->end();
         TenantHelpers::tenantDiskReset();
 
-        if (!$impersonatedTenantId || $authUser?->tenant_id || !$authUser?->can('impersonate-a-tenant')) {
-            \session()->forget('impersonated_tenant');
-            \session()->forget('impersonated_tenant_data');
-
+        if (!$userTenantId) {
             return $next($request);
         }
 
-        $tenant = Tenant::getByIdAndCache($impersonatedTenantId);
+        $tenant = Tenant::getByIdAndCache($userTenantId);
 
-        if (!$impersonatedTenantId || !$tenant || !$tenant?->id || ($impersonatedTenantId != $tenant?->id)) {
-            \session()->forget('impersonated_tenant');
-            \session()->forget('impersonated_tenant_data');
-
-
+        if (!$tenant || !$userTenantId || !$tenant?->id || ($userTenantId != $tenant?->id)) {
             return $next($request);
         }
 
         if ($tenant) {
-            \session()->put('impersonated_tenant', $tenant?->id);
-            \session()->put('impersonated_tenant_data', $tenant);
             tenancy()->initialize($tenant);
             TenantHelpers::tenantDiskInit();
         }

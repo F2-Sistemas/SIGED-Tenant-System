@@ -327,6 +327,7 @@ return [
             MirrorConfigToSubpackages::class,
             \App\Http\Middleware\TenantIsRequired::class,
             \App\Http\Middleware\InitializeImpersonatedTenant::class,
+            \App\Http\Middleware\InitializeUserTenant::class,
         ],
     ],
 ];

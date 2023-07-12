@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\InitializeImpersonatedTenant::class,
+            \App\Http\Middleware\InitializeUserTenant::class,
         ],
 
         'api' => [
@@ -65,5 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'init_impersonated_tenant' => \App\Http\Middleware\InitializeImpersonatedTenant::class,
+        'init_user_tenant' => \App\Http\Middleware\InitializeUserTenant::class,
     ];
 }

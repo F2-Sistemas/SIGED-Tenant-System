@@ -8,11 +8,15 @@ use Throwable;
 use App\Helpers\TenantHelpers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\InitializeUserTenant;
 use App\Http\Middleware\InitializeImpersonatedTenant;
 
 class TenantStorageUrlController extends Controller
 {
-    public static \Closure|array|string $tenancyMiddleware = InitializeImpersonatedTenant::class;
+    public static \Closure|array|string $tenancyMiddleware = [
+        InitializeImpersonatedTenant::class,
+        InitializeUserTenant::class,
+    ];
 
     public function __construct()
     {

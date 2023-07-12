@@ -28,6 +28,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // create roles and assign created permissions
 
+        $globalPermissions = array_values((array) config('permission-list.global_permissions'));
+
         // this can be done as separate statements
         \collect([
             'writer' => [
@@ -39,9 +41,12 @@ class RolesAndPermissionsSeeder extends Seeder
                 'unpublish articles',
                 'painel:access',
             ],
-        ])->each(function ($rolePermissions, $roleName) {
+        ])->each(function ($rolePermissions, $roleName) use ($globalPermissions) {
             $role = Role::firstOrCreate(['name' => $roleName]);
-            $role->syncPermissions($rolePermissions);
+            $role->syncPermissions([
+                ...$rolePermissions,
+                ...$globalPermissions,
+            ]);
         });
 
         $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);

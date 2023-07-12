@@ -30,4 +30,14 @@ return [
         'view-tenant-list',
         'impersonate-a-tenant',
     ],
+
+    /**
+     * ! CAUTION !
+     * 'global_permissions' arw shared permissions for all users
+     * All user will has this persmissions
+     * Use only for non secure permissions
+     */
+    'global_permissions' => [
+        'send-a-feedback',
+    ],
 ];
