@@ -105,7 +105,7 @@ class FakeTenantSeeder extends Seeder
 
             dump($tenant?->id);
 
-            foreach (($tenant['domains'] ?? []) as $domain) {
+            foreach ($tenantData->get('domains', []) as $domain) {
                 $tenant->domains()->updateOrCreate([
                     'domain' => $domain,
                 ], [

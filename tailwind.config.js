@@ -1,25 +1,22 @@
-const colors = require('tailwindcss/colors')
+import defaultTheme from 'tailwindcss/defaultTheme';
+import forms from '@tailwindcss/forms';
 
-module.exports = {
+/** @type {import('tailwindcss').Config} */
+export default {
     content: [
-        './resources/**/*.blade.php',
-        './vendor/filament/**/*.blade.php',
-        'resources/views/components/**/*.blade.php',
-        'resources/views/components/**/*.js',
-        'resources/views/components/siged/orcamento-items/**/*.blade.php',
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+        './resources/js/**/*.vue',
     ],
+
     theme: {
         extend: {
-            colors: {
-                danger: colors.rose,
-                primary: colors.blue,
-                success: colors.green,
-                warning: colors.yellow,
+            fontFamily: {
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
     },
-    plugins: [
-        require('@tailwindcss/forms'),
-        require('@tailwindcss/typography'),
-    ],
-}
+
+    plugins: [forms],
+};

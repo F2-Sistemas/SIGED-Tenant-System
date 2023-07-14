@@ -22,7 +22,10 @@ Route::middleware([
 });
 
 Route::get('/', RedirectToAdminController::class)->name('home');
-Route::get('/login', RedirectToAdminController::class)->name('login');
+
+if (!config('public-web.routes.enabled')) {
+    Route::get('/login', RedirectToAdminController::class)->name('login');
+}
 
 Route::get('users', ListUsers::class);
 Route::get('products', ListProducts::class);
