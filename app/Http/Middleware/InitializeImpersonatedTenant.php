@@ -49,7 +49,6 @@ class InitializeImpersonatedTenant
             \session()->forget('impersonated_tenant');
             \session()->forget('impersonated_tenant_data');
 
-
             return $next($request);
         }
 
