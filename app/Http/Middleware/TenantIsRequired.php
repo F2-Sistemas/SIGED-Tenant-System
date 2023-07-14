@@ -83,7 +83,10 @@ class TenantIsRequired
             return $next($request);
         }
 
-        if (\session('impersonated_tenant') && Tenant::getByIdAndCache(\session('impersonated_tenant'))) {
+        if (
+            \session()->get('impersonated_tenant')
+            && Tenant::getByIdAndCache(\session()->get('impersonated_tenant'))
+        ) {
             return $next($request);
         }
 

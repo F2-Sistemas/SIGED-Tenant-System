@@ -31,7 +31,7 @@ class InitializeImpersonatedTenant
             return $next($request);
         }
 
-        $impersonatedTenantId = \session('impersonated_tenant');
+        $impersonatedTenantId = \session()->get('impersonated_tenant');
 
         \tenancy()->end();
         TenantHelpers::tenantDiskReset();

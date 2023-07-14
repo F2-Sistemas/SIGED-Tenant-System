@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\ImpersonateTenantHelpers;
 use Closure;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
@@ -29,18 +30,23 @@ class InitializeUserTenant
             return $next($request);
         }
 
+        if (ImpersonateTenantHelpers::getImpersonatedTenant($authUser)) {
+            return $next($request);
+        }
+
         $userTenantId = $authUser?->tenant_id;
 
-        \tenancy()->end();
-        TenantHelpers::tenantDiskReset();
-
         if (!$userTenantId) {
+            \tenancy()->end();
+            TenantHelpers::tenantDiskReset();
             return $next($request);
         }
 
         $tenant = Tenant::getByIdAndCache($userTenantId);
 
         if (!$tenant || !$userTenantId || !$tenant?->id || ($userTenantId != $tenant?->id)) {
+            \tenancy()->end();
+            TenantHelpers::tenantDiskReset();
             return $next($request);
         }
 
