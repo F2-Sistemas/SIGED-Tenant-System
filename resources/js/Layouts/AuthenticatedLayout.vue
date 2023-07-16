@@ -1,13 +1,21 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
+import CustomTagA from '@/Components/CustomTagA.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3'
 
 const showingNavigationDropdown = ref(false);
+
+const page = usePage()
+const user = computed(() => page.props.auth.user)
+const permissions = computed(() => page.props.auth.user.permissions)
+
+const _can = (permission) => permissions.value.includes(permission)
 </script>
 
 <template>
@@ -32,6 +40,14 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+
+                                <CustomTagA
+                                    v-if="_can('painel:access')"
+                                    :href="route('filament.pages.dashboard')"
+                                    :new-tab="true"
+                                >
+                                    Acessar back-office
+                                </CustomTagA>
                             </div>
                         </div>
 

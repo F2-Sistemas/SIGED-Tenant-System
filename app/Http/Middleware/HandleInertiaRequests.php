@@ -30,9 +30,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+
+        /**
+         * @see https://inertiajs.com/shared-data#sharing-data
+         */
         return array_merge(parent::share($request), [
+            // Synchronously...
+            'appName' => config('app.name'),
+
             'auth' => [
-                'user' => $request->user(),
+                'user' => array_merge(($user ? $user?->toArray() : []), [
+                    'permissions' => $user ? $user->getAllPermissionNames() : [],
+                ]),
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [

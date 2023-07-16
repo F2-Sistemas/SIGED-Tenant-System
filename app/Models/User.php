@@ -17,6 +17,7 @@ use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\User
@@ -149,5 +150,10 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     public function canAccessFilament(): bool
     {
         return $this->can('painel:access');
+    }
+
+    public function getAllPermissionNames(): Collection
+    {
+        return $this->getAllPermissions()->flatMap(fn($item) => [$item->name]);
     }
 }
