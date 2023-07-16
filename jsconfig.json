@@ -4,8 +4,10 @@
         "paths": {
             "@/*": ["resources/js/*"],
             "@resources/*": ["resources/*"],
-            "@vendor/*": ["vendor/*"]
-        }
+            "@vendor/*": ["vendor/*"],
+            "@public/*": ["public/*"]
+        },
+        "allowJs": true,
     },
     "exclude": ["node_modules", "public"]
 }
