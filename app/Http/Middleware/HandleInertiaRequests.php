@@ -38,6 +38,9 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             // Synchronously...
             'appName' => config('app.name'),
+            'laravelRequest' => [
+                'query' => $request->query(),
+            ],
 
             'auth' => [
                 'user' => array_merge(($user ? $user?->toArray() : []), [

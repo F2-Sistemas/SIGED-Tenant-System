@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::name('tenants.public.')->group(function () {
-    Route::get('orcamentos/{anoVigencia?}', [OrcamentosController::class, 'index'])
+    Route::get('orcamentos/{anoVigencia?}/{tipoOrcamento?}', [OrcamentosController::class, 'index'])
         ->where('anoVigencia', '20[1-2][0-9]')
         ->name('orcamentos.index');
 });
