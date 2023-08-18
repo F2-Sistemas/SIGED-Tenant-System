@@ -4,6 +4,8 @@ import flowbite from 'flowbite/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+    darkMode: 'class', /*
+    darkMode: 'media', // 'media' | 'class' /* */
     content: [
         './node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}',
         './node_modules/flowbite/**/*.{js,jsx,ts,tsx}',

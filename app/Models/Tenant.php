@@ -101,6 +101,38 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     }
 
     /**
+     * function firstByDomain
+     *
+     * @param ?string $domain
+     *
+     * @return ?object
+     */
+    public static function firstByDomain(?string $domain): ?object
+    {
+        if (!$domain) {
+            return null;
+        }
+
+        return Cache::remember(
+            implode('-', [
+                str(__CLASS__)->afterLast('\\'),
+                __FUNCTION__,
+                $domain,
+            ]),
+            300,
+            function () use ($domain) {
+                $domain = Domain::firstByDomain($domain);
+
+                if (!$domain || !$domain?->tenant_id) {
+                    return null;
+                }
+
+                return Tenant::whereId($domain?->tenant_id)->first();
+            }
+        );
+    }
+
+    /**
      * Get all of the users for the Tenant
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -325,7 +325,7 @@ return [
             SubstituteBindings::class,
             DispatchServingFilamentEvent::class,
             MirrorConfigToSubpackages::class,
-            \App\Http\Middleware\TenantIsRequired::class,
+            \App\Http\Middleware\TenantImpersonatedIsRequired::class,
             \App\Http\Middleware\InitializeImpersonatedTenant::class,
             \App\Http\Middleware\InitializeUserTenant::class,
         ],

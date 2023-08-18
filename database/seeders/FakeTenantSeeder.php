@@ -76,14 +76,14 @@ class FakeTenantSeeder extends Seeder
                 'id' => 'cliente1',
                 'domains' => [
                     'cliente1.app.local',
-                    'client01.siged.local',
+                    'cliente1.siged.local',
                 ],
             ],
             [
                 'id' => 'cliente2',
                 'domains' => [
                     'cliente2.app.local',
-                    'client02.siged.local',
+                    'cliente2.siged.local',
                 ],
             ],
         ])->each(function ($tenantData) {

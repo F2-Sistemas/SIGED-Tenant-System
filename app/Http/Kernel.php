@@ -69,5 +69,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'init_impersonated_tenant' => \App\Http\Middleware\InitializeImpersonatedTenant::class,
         'init_user_tenant' => \App\Http\Middleware\InitializeUserTenant::class,
+        'tenant_is_required' => \App\Http\Middleware\TenantIsRequired::class,
+        'tenant_by_domain' => \App\Http\Middleware\GetTenantByDomain::class,
     ];
 }

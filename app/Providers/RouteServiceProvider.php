@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Fluent;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -30,12 +31,15 @@ class RouteServiceProvider extends ServiceProvider
             $this->mapApiRoutes();
             $this->mapWebRoutes();
             $this->mapTenantStaticRoutes();
+            $this->mapTenantByDomainRoutes();
         });
     }
 
     protected function configureRateLimiting()
     {
-        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
+        RateLimiter::for('api', fn (
+            Request $request
+        ) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
     }
 
     protected function mapWebRoutes()
@@ -75,9 +79,47 @@ class RouteServiceProvider extends ServiceProvider
     {
         foreach ($this->centralDomains() as $domain) {
             Route::domain($domain)
-                ->middleware(['api', 'web'])
+                ->middleware([
+                    'api',
+                    'web',
+                ])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/tenant.php'));
+        }
+    }
+
+    protected function mapTenantByDomainRoutes()
+    {
+        $basePathRoute = base_path('routes/tenant_by_domain.php');
+
+        foreach ([
+            [
+                'prefix' => '/',
+                'middlewares' => [
+                    'web',
+                    'tenant_by_domain',
+                    'tenant_is_required',
+                ],
+                'name' => '/',
+            ],
+            [
+                'prefix' => 'api',
+                'middlewares' => [
+                    'api',
+                    'tenant_by_domain',
+                    'tenant_is_required',
+                ],
+                'name' => 'api',
+            ],
+        ] as $item) {
+            $item = new Fluent($item);
+            $name = str($item->name ?: '')->slug()->toString();
+
+            Route::middleware($item->middlewares ?: [])
+                ->prefix($item->prefix ?: '')
+                ->name($name ? $name . '.' : '')
+                ->namespace($this->namespace)
+                ->group($basePathRoute);
         }
     }
 

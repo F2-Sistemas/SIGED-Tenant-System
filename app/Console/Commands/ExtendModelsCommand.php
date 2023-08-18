@@ -32,7 +32,7 @@ class ExtendModelsCommand extends ModelsCommand
 
             if (!$tenantId) {
                 throw new \Exception(
-                    "For tenant context, tenantId is required. [ide-helper.tenant_context.tenant_id_on_migration]",
+                    'For tenant context, tenantId is required. [ide-helper.tenant_context.tenant_id_on_migration]',
                     1
                 );
             }
