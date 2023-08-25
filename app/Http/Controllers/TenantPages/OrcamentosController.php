@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Enums\OrcamentoTipoEnum;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Orcamento;
+use Illuminate\Database\Schema\Builder;
 
 class OrcamentosController extends Controller
 {
@@ -27,7 +29,10 @@ class OrcamentosController extends Controller
         $tipoOrcamento ??= $request->query('tipoOrcamento');
         $selectedYear = $request->query('selectedYear') ?? $anoVigencia ?? date('c');
 
-        if ($tipoOrcamento && !in_array($tipoOrcamento, array_values(OrcamentoTipoEnum::enums(false)), true)) {
+        $allowedYears = range(2015, date('Y') + 4); // Aceita apenas ano de referência a partir de X.
+
+        $orcamentoTipoEnums = OrcamentoTipoEnum::enums(false);
+        if ($tipoOrcamento && !in_array($tipoOrcamento, array_values($orcamentoTipoEnums), true)) {
             abort(404);
         }
 
@@ -47,20 +52,35 @@ class OrcamentosController extends Controller
             }
         );
 
-        // Orcamento
-        $orcamentos= Cache::remember(
-            implode('-', ['orcamentos', $selectedYear]),
+        // Orcamentos
+        $orcamentos = Cache::remember(
+            implode('-', [
+                'orcamentos',
+                'selectedYear',
+                $selectedYear,
+                'tipoOrcamento' => $tipoOrcamento,
+            ]),
             (60 * 60 * 24) /*secs*/,
-            function () {
-                foreach (OrcamentoTipoEnum::enums(false) as $enum => $key) {
-                    $enums[] = [
-                        'enum' => $enum,
-                        'key' => $key,
-                        'label' => OrcamentoTipoEnum::get($enum)
-                    ];
-                };
+            function () use (
+                $selectedYear,
+                $tipoOrcamento,
+                $orcamentoTipoEnums,
+                $allowedYears,
+            ) {
+                if (!in_array($selectedYear, $allowedYears)) {
+                    return [];
+                }
 
-                return $enums ?? [];
+                $query = Orcamento::anoVigencia($selectedYear)
+                    ->with('items');
+
+                $tipoOrcamento = array_flip($orcamentoTipoEnums)[$tipoOrcamento] ?? null;
+
+                if ($tipoOrcamento) {
+                    $query->where('tipo', $tipoOrcamento);
+                }
+
+                return $query->get();
             }
         );
 
@@ -72,6 +92,7 @@ class OrcamentosController extends Controller
                 'pageTitle' => __('pages/orcamentos.index.title'),
                 'orcamentoTipos' => $orcamentoTipos,
                 'orcamentos' => $orcamentos,
+                'latestYears' => range(date('Y'), (date('Y') - 6)),
             ]
         );
     }

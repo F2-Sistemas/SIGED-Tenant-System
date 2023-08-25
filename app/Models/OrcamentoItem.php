@@ -79,7 +79,7 @@ class OrcamentoItem extends Model
     ];
 
     protected $appends = [
-        'leiTipoValue'
+        'leiTipoValue',
     ];
 
     /**

@@ -7,6 +7,7 @@ use App\Support\IdeHelper\TenantContext;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * App\Models\Orcamento
@@ -52,7 +53,7 @@ class Orcamento extends Model
     ];
 
     protected $appends = [
-        'tipoValue'
+        'tipoValue',
     ];
 
     /**
@@ -68,5 +69,16 @@ class Orcamento extends Model
     public function getTipoValueAttribute()
     {
         return \App\Enums\OrcamentoTipoEnum::get($this->tipo) ?? null;
+    }
+
+    public function scopeAnoVigencia(Builder $query, int $anoInicio, ?int $anoFim = null)
+    {
+        $query->where('ano_vigencia_inicio', $anoInicio);
+
+        if ($anoFim && $anoFim >= $anoInicio) {
+            $query->where('ano_vigencia_fim', $anoFim);
+        }
+
+        return $query;
     }
 }

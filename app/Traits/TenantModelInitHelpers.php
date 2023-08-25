@@ -72,11 +72,51 @@ trait TenantModelInitHelpers
      *
      * @return bool
      */
-    public function end(): bool
+    public static function end(): bool
     {
         \tenancy()->end();
         static::tenantDiskReset();
 
-        return !$this->isInitialized();
+        return !\tenancy()->initialized;
+    }
+
+    public static function initialized(): ?Tenant
+    {
+        return tenancy()->tenant;
+    }
+
+    public function initializedAsThis()
+    {
+        if (!is_a($this, Tenant::class)) {
+            return false;
+        }
+
+        return (tenancy()->tenant?->id == $this->{'id'});
+    }
+
+    public static function initById(int|string $tenantId, ?bool $returnInited = true): bool|Tenant
+    {
+        return static::initializeById($tenantId, $returnInited);
+    }
+
+    public static function initializeById(int|string $tenantId, ?bool $returnInited = true): bool|Tenant
+    {
+        $tenant = static::where('id', $tenantId)->first();
+
+        if (!$tenant) {
+            return false;
+        }
+
+        static::end();
+
+        tenancy()->initialize($tenant);
+
+        $initialized = static::initialized();
+
+        if ($returnInited) {
+            return $initialized;
+        }
+
+        return boolval($initialized);
     }
 }
