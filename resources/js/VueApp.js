@@ -3,7 +3,6 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Theme from '@/helpers/preferences/Theme';
-
 import collect from 'collect.js';
 
 window.collect = (collect.default);
@@ -20,6 +19,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 import '../css/app-tailwindcss.css';
 import '../css/vue-app/style.css';
+import 'flowbite';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

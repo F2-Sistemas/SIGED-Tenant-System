@@ -26,6 +26,9 @@ dependencies:
   '@vitejs/plugin-vue':
     specifier: ^4.3.1
     version: 4.3.1(vite@4.4.9)(vue@3.3.4)
+  '@vue/compat':
+    specifier: ^3.3.4
+    version: 3.3.4(vue@3.3.4)
   '@vue/server-renderer':
     specifier: ^3.3.4
     version: 3.3.4(vue@3.3.4)
@@ -35,6 +38,9 @@ dependencies:
   autoprefixer:
     specifier: ^10.4.15
     version: 10.4.15(postcss@8.4.28)
+  bootstrap-icons:
+    specifier: ^1.10.5
+    version: 1.10.5
   collect.js:
     specifier: ^4.36.1
     version: 4.36.1
@@ -491,6 +497,17 @@ packages:
       vue: 3.3.4
     dev: false
 
+  /@vue/compat@3.3.4(vue@3.3.4):
+    resolution: {integrity: sha512-VwAsPqUqRJVxeLQPUC03Sa5d+T8UG2Qv4VItq74KmNvtQlRXICpa/sqq12BcyBB4Tz1U5paOEZxWCUoXkrZ9QQ==}
+    peerDependencies:
+      vue: 3.3.4
+    dependencies:
+      '@babel/parser': 7.22.10
+      estree-walker: 2.0.2
+      source-map-js: 1.0.2
+      vue: 3.3.4
+    dev: false
+
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
     dependencies:
@@ -683,6 +700,10 @@ packages:
   /binary-extensions@2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
+    dev: false
+
+  /bootstrap-icons@1.10.5:
+    resolution: {integrity: sha512-oSX26F37V7QV7NCE53PPEL45d7EGXmBgHG3pDpZvcRaKVzWMqIRL9wcqJUyEha1esFtM3NJzvmxFXDxjJYD0jQ==}
     dev: false
 
   /brace-expansion@1.1.11:

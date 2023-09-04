@@ -8,6 +8,14 @@ import CustomTagA from '@/Components/CustomTagA.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3'
+import 'flowbite';
+import { onMounted } from 'vue'
+import { initFlowbite } from 'flowbite'
+
+// initialize components based on data attribute selectors
+onMounted(() => {
+    initFlowbite();
+})
 
 const showingNavigationDropdown = ref(false);
 

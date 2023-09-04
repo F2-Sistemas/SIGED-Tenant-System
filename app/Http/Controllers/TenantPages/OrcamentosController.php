@@ -67,6 +67,9 @@ class OrcamentosController extends Controller
                 $orcamentoTipoEnums,
                 $allowedYears,
             ) {
+                $text = 'Check out this guide to learn how to <a href="/docs/getting-started/introduction/">get started</a> and start developing websites even faster with components on top of Tailwind <strong>CSS.</strong>';
+                $stripedText = strip_tags($text, ['a']);
+
                 if (!in_array($selectedYear, $allowedYears)) {
                     return [];
                 }

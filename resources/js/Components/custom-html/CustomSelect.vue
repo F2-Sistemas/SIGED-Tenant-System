@@ -82,4 +82,3 @@ const itemId = props.id || generateRandomString(15);
         </select>
     </div>
 </template>
-@/helpers/string/index

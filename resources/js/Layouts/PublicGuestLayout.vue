@@ -2,6 +2,14 @@
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import 'flowbite';
+import { onMounted } from 'vue'
+import { initFlowbite } from 'flowbite'
+
+// initialize components based on data attribute selectors
+onMounted(() => {
+    initFlowbite();
+})
 
 const page = usePage()
 
