@@ -414,3 +414,26 @@ if (!function_exists('package_static_file')) {
         return asset("/pkgman-static/{$asset}");
     }
 }
+
+if (!function_exists('getMethods')) {
+    /**
+     * getMethods function
+     *
+     * @param object|string|callable $classOrInstance
+     * @param boolean $sort
+     * @param int $sortFlags
+     *
+     * @return array
+     */
+    function getMethods(
+        object|string|callable $classOrInstance,
+        bool $sort = true,
+        int $sortFlags = SORT_REGULAR,
+    ): array {
+        return \App\Helpers\ObjectHelpers::getMethods(
+            $classOrInstance,
+            $sort,
+            $sortFlags,
+        );
+    }
+}
