@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
+use App\Enums\OrcamentoTipoEnum;
 
 /**
  * App\Models\Orcamento
@@ -54,6 +55,8 @@ class Orcamento extends Model
 
     protected $appends = [
         'tipoValue',
+        'tipoTranslatedValue',
+        'exercicio',
     ];
 
     /**
@@ -68,7 +71,12 @@ class Orcamento extends Model
 
     public function getTipoValueAttribute()
     {
-        return \App\Enums\OrcamentoTipoEnum::get($this->tipo) ?? null;
+        return static::tipoEnum(false);
+    }
+
+    public function getTipoTranslatedValueAttribute()
+    {
+        return static::tipoEnum(true);
     }
 
     public function scopeAnoVigencia(Builder $query, int $anoInicio, ?int $anoFim = null)
@@ -80,5 +88,35 @@ class Orcamento extends Model
         }
 
         return $query;
+    }
+
+    public function tipoEnum(
+        bool $tranlate = true,
+        ?string $locale = null,
+    ) {
+        if (!$this->tipo) {
+            return null;
+        }
+
+        return OrcamentoTipoEnum::getValue(
+            $this->tipo,
+            $tranlate,
+            $locale,
+        ) ?? null;
+    }
+
+    public function getExercicioAttribute()
+    {
+        if (!$this->tipo) {
+            return null;
+        }
+
+        return match ($this->tipo) {
+            OrcamentoTipoEnum::PPA => implode('/', array_filter([
+                $this->ano_vigencia_inicio,
+                $this->ano_vigencia_fim,
+            ])),
+            default => $this->ano_vigencia_inicio,
+        };
     }
 }

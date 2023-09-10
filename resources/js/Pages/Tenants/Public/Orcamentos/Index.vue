@@ -3,6 +3,7 @@ import PublicGuestLayout from "@/Layouts/PublicGuestLayout.vue";
 import DeleteUserForm from "./Partials/DeleteUserForm.vue";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm.vue";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
+import { generateRandomString } from "@resources/js/helpers/string/index";
 import { Head, Link, usePage } from "@inertiajs/vue3";
 import CustomSelect from "@/Components/custom-html/CustomSelect.vue";
 import { ref, computed } from "vue";
@@ -11,6 +12,9 @@ import { Dropdown, ListGroup, ListGroupItem } from "flowbite-vue";
 import URLHelpers, { URLParam } from "@resources/js/helpers/url-helpers/index";
 import HTMLHelpers from "@resources/js/helpers/html-helpers/index";
 import CustomAccordion from "@resources/js/Components/flowbite/accordion/CustomAccordion.vue";
+import BasicAccordion from "@resources/js/Components/flowbite/accordion/BasicAccordion.vue";
+import AccordionItem from "@resources/js/Components/flowbite/accordion/AccordionItem/AccordionItem.vue";
+import HelpIcon from "@resources/js/Components/icons/generic/HelpIcon.vue";
 // import { Accordion, AccordionPanel, AccordionHeader, AccordionContent } from 'flowbite-vue'
 import {
     Accordion,
@@ -52,7 +56,7 @@ const props = defineProps({
 
 let selectedYear = ref(props?.selectedYear ?? null);
 
-let tipoOrcamento = ref(props?.tipoOrcamento || "todos");
+let tipoOrcamento = ref(props?.tipoOrcamento || "");
 
 const orcamentosTipoList = computed(() =>
     props?.orcamentoTipos.map((item) => ({ ...item, value: item.key }))
@@ -76,11 +80,11 @@ const activeQuery = computed(
 );
 
 let updateMessage = function (event) {
-    let value = (tipoOrcamento.value = event?.value || "todos");
+    let value = (tipoOrcamento.value = event?.value || "");
 
     let lastPath = URLHelpers.paths.lastPath();
 
-    if (!value || value === "todos" || lastPath === value) {
+    if (!value || value === "" || lastPath === value) {
         URLHelpers.params.remove("tipoOrcamento");
         return;
     }
@@ -90,7 +94,35 @@ let updateMessage = function (event) {
 
 let latestYears = ref(props?.latestYears || []);
 // let orcamentos = ref(props?.orcamentos || []);
-console.log(JSON.parse(JSON.stringify(props?.orcamentos)));
+
+const _toArray = (data) => {
+    return (JSON.parse(JSON.stringify(data)));
+}
+
+let orcamentos = computed(() => {
+    let orcamentos = (props?.orcamentos || []);
+    let mappedOrcamentos = {};
+    orcamentos.map(item =>{
+        if (!(mappedOrcamentos[item.tipoValue]) || !('items' in (mappedOrcamentos[`${item.tipoValue}`] ?? {}))) {
+            // console.log('item:', JSON.parse(JSON.stringify(item)));
+            console.log('item:', _toArray(item));
+            mappedOrcamentos[item.tipoValue] = {
+                key: item.tipoValue,
+                label: [item.tipoTranslatedValue, item.exercicio ? item.exercicio : ''].join(' | '),
+                items: []
+            };
+        }
+
+        mappedOrcamentos[item.tipoValue].items.push(item);
+    });
+
+    mappedOrcamentos = Object.values(mappedOrcamentos);
+    console.log(mappedOrcamentos);
+
+    return mappedOrcamentos;
+});
+
+console.log(JSON.parse(JSON.stringify(orcamentos.value)));
 
 const classConformTagList = {
     all: {},
@@ -107,6 +139,7 @@ let openFirstItem = selectedYear.value == 2020;
 let strippedText = `Check out this guide to learn how to <a href="/docs/getting-started/introduction/">get started</a>
 and start developing websites even faster with components on top of Tailwind CSS.`;
 
+/* *
 let orcamentos = ref([
     {
         header: "Item #1",
@@ -141,8 +174,10 @@ let orcamentos = ref([
         tipo: 'ldo',
     },
 ]);
+/**/
 
 let getOrcamentos = computed(() => {
+    // return orcamentos.value;
     let searchBy = String(orcamentoSearchFilter.value).toLowerCase();
     let tipos = collect(orcamentosTipoList.value).pluck('key').toArray();
 
@@ -150,17 +185,37 @@ let getOrcamentos = computed(() => {
 
     if (tipos.includes(tipoOrcamento.value)) {
         console.log(tipos.includes(tipoOrcamento.value));
-        items = items.filter(item => item.tipo == tipoOrcamento.value);
+        items = items.filter(item => item.key == tipoOrcamento.value);
     }
 
     return items.filter(item => {
         let div = document.createElement('div');
-        div.innerHTML = item.content.join(' ');
-        let allContent = (item.header + ' ' + div.textContent).toLowerCase();
+        div.innerHTML = [
+            // item.tipoTranslatedValue,
+            // item.tipoValue,
+            // item.exercicio,
+            item.key,
+            item.label,
+        ].join(' ').trim();
+
+        // console.log('div.innerHTML', div.innerHTML, `|${div.innerHTML}|`, div.innerHTML.length, item);
+        console.clear();
+        let localItems = item.items;
+        console.log('antes do filtro', localItems);
+        localItems
+        console.log('depois do filtro', localItems);
+        let allContent = (item.tipoValue + ' ' + div.textContent).toLowerCase();
         let includesText = allContent.includes(searchBy);
-        let contains =  includesText || item.tipo === searchBy || (item.tags || []).includes(searchBy);
+        let contains =  includesText || item.tipoValue === searchBy || (item.tags || []).includes(searchBy);
         return contains;
     });
+});
+
+let orcamentoWrapperId = generateRandomString(15);
+
+let getAccordionMode = ref(() => {
+    // return "collapse";
+    return "open";
 });
 </script>
 
@@ -227,7 +282,7 @@ let getOrcamentos = computed(() => {
                             <span
                                 class="text-gray-800 dark:text-gray-200 uppercase"
                             >
-                                {{ tipoOrcamento }}
+                                {{ tipoOrcamento ? tipoOrcamento : 'Todos' }}
                             </span>
                         </p>
                     </div>
@@ -239,7 +294,7 @@ let getOrcamentos = computed(() => {
                     <div class="col-span-5 md:col-span-4">
                         <CustomSelect
                             class="cursor-pointer"
-                            labelClass="text-gray-800 dark:text-gray-300"
+                            :labelClass="`text-gray-800 dark:text-gray-300 tipoOrcamento-${tipoOrcamento}`"
                             emptyOption="Todos"
                             :value="tipoOrcamento"
                             label="Filtrar por tipo de orçamento"
@@ -307,13 +362,172 @@ let getOrcamentos = computed(() => {
             </div>
             -->
 
-            <div class="max-w-7xl mx-auto sm:px-2 lg:px-4 mb-4">
-                <CustomAccordion
-                    :alwaysOpen="true"
-                    :openFirstItem="openFirstItem"
-                    :accordionItems="getOrcamentos"
-                    id="teste"
-                ></CustomAccordion>
+            <div
+                :id="orcamentoWrapperId"
+                :data-accordion="getAccordionMode"
+                class="max-w-7xl mx-auto sm:px-2 lg:px-4 mb-4"
+            >
+                <AccordionItem
+                    v-for="(orcamento, orcamentoIndex) in getOrcamentos"
+                    v-key="orcamentoIndex"
+                    :accordionWrapperId="orcamentoWrapperIds"
+                    :isFirst="orcamentoIndex == 0"
+                    :isLast="orcamentoIndex == (getOrcamentos.length - 1)"
+                    roundedTop
+                    roundedBottom
+                    class="mb-2"
+                >
+                    <!-- <template v-slot:headerIcon>
+                        <HelpIcon />
+                    </template> -->
+
+                    <template v-slot:header>
+                        <span class="uppercase" v-html="orcamento.label"></span>
+                    </template>
+
+                    <template v-slot:content>
+                        <div
+                            :class="[
+                                'text-gray-500 bg-gray-50 dark:bg-gray-900 dark:text-white p-2 mt-1',
+                            ]"
+                        >
+                            <template
+                                v-for="(orcamentoItemList, orcamentoItemListIndex) in orcamento.items"
+                                v-key="orcamentoItemListIndex"
+                            >
+                                <div
+                                    :class="[
+                                        'w-full overflow-hidden mb-3',
+                                        'border border-gray-200 dark:border-gray-700',
+                                        'text-xs font-semibold tracking-wide text-left',
+                                        'bg-gray-100 dark:bg-gray-700 dark:text-white',
+                                    ]"
+                                >
+                                    <h4
+                                        :class="[
+                                            'grid items-start grid-cols-10 gap-2 gap-x-2',
+                                            'px-2 py-3 text-md text-center tracking-wider',
+                                            'divide-x divide-solid',
+                                            'border border-1 border-x-0 border-t-0 border-gray-400 dark:border-gray-400',
+                                        ]"
+                                    >
+                                        <span
+                                            class="col-span-1 uppercase"
+                                            v-if="orcamentoItemList.tipoValue"
+                                        >
+                                            {{ orcamentoItemList.tipoValue }}
+                                        </span>
+
+                                        <span class="col-span-2">
+                                            Exercício: {{
+                                                orcamentoItemList?.exercicio
+                                                || orcamentoItemList?.ano_vigencia_fim
+                                            }}
+                                        </span>
+
+                                        <a :href="`#${orcamentoItemList?.ano_vigencia_fim}`" >Anexo</a>
+
+                                        <span class="col-span-4">Publicado no Diário Oficial Nº 104 [TODO]</span>
+                                    </h4>
+
+                                    <div
+                                        class="px-2 pb-1 pt-2 bg-gray-50 dark:bg-gray-900"
+                                        v-for="(orcamentoItemListItem, orcamentoItemListItem_index) in orcamentoItemList.items"
+                                        v-key="orcamentoItemListItem_index"
+                                    >
+
+                                        <BasicAccordion
+                                            :id="`details_${orcamentoItemListIndex}`"
+                                            :contentClass="['p-2']"
+                                            :openFirstItem="true"
+                                        >
+                                            <template v-slot:header>Descrição</template>
+
+                                            <template v-slot:content>
+                                                <div class="py-1">
+                                                    <p v-if="orcamentoItemListItem.content" v-html="orcamentoItemListItem.content"></p>
+                                                </div>
+                                            </template>
+                                        </BasicAccordion>
+
+                                        <template
+                                            v-if="Boolean(
+                                                    orcamentoItemListItem?.aditional_data
+                                                    && Object.keys(orcamentoItemListItem?.aditional_data).length
+                                            )"
+                                        >
+                                            <BasicAccordion
+                                                v-if="orcamentoItemList?.items?.length"
+                                                class="mt-2 mb-1 p-0"
+                                                :contentClass="['p-0']"
+                                                :id="`aditional_${orcamentoItemListIndex}`"
+                                                :headerClass="[
+                                                    //'border border-1 border-gray-400 dark:border-gray-100',
+                                                    //'rounded',
+                                                    // 'col-span-1 uppercase',
+                                                ]"
+                                            >
+                                                <template v-slot:header>
+                                                    Informaçãoes adicionais
+                                                </template>
+
+                                                <template v-slot:content>
+                                                    <div
+                                                        :class="[
+                                                            'w-full overflow-hidden',
+                                                            //'rounded-md shadow-sm',
+                                                            'border-1 border-gray-200 dark:border-gray-700',
+                                                            'm-0 px-0',
+                                                            'bg-gray-100 dark:bg-gray-600',
+                                                        ]"
+                                                    >
+                                                        <table
+                                                            :class="[
+                                                                'w-full whitespace-no-wrap',
+                                                                'border border-gray-200 dark:border-gray-700',
+                                                            ]"
+                                                        >
+                                                            <tbody
+                                                                :class="[
+                                                                    'bg-white text-gray-700 divide-y',
+                                                                    'dark:bg-gray-800 dark:text-white',
+                                                                ]"
+                                                            >
+                                                                <template
+                                                                    v-for="(adi, adiKey) in orcamentoItemListItem?.aditional_data"
+                                                                    v-key="adiKey"
+                                                                >
+                                                                    <tr class="hover:bg-gray-500" >
+                                                                        <th
+                                                                            class="px-4 py-3 text-left"
+                                                                            v-text="adiKey"
+                                                                        ></th>
+                                                                        <td
+                                                                            class="px-4 py-3"
+                                                                            v-text="adi"
+                                                                        ></td>
+                                                                    </tr>
+                                                                </template>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </template>
+                                            </BasicAccordion>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </AccordionItem>
+                <div
+                    v-if="!(getOrcamentos.length)"
+                    :class="[
+                        'block pt-4 pb-5 mx-auto mb-4 text-gray-500 dark:text-gray-400 text-center',
+                        'border border-gray-200 focus:none dark:focus:none dark:border-gray-700',
+                        'rounded-xl',
+                    ]"
+                >Sem itens</div>
             </div>
 
             <!-- <div class="max-w-7xl mx-auto sm:px-2 lg:px-4 space-y-6 my-4">

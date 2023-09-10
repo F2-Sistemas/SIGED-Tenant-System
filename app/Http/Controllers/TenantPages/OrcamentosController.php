@@ -79,9 +79,10 @@ class OrcamentosController extends Controller
 
                 $tipoOrcamento = array_flip($orcamentoTipoEnums)[$tipoOrcamento] ?? null;
 
-                if ($tipoOrcamento) {
-                    $query->where('tipo', $tipoOrcamento);
-                }
+                # Vou deixar o filtro ser no front. Aqui está cacheado mesmo
+                // if ($tipoOrcamento) {
+                //     $query->where('tipo', $tipoOrcamento);
+                // }
 
                 return $query->get();
             }
