@@ -44,7 +44,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereHtmlCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereJsCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereOrganizationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereSearchTags($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereShowFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereShowTo($value)
@@ -52,16 +51,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereSmallDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DynamicContent whereUpdatedAt($value)
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @mixin \Eloquent
  */
 class DynamicContent extends Model implements HasMedia

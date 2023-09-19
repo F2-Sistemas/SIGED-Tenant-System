@@ -13,12 +13,6 @@ use App\Enums\OrcamentoTipoEnum;
 /**
  * App\Models\Orcamento
  *
- * @method static \Database\Factories\OrcamentoFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento query()
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrcamentoItem> $items
- * @property-read int|null $items_count
  * @property string $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -26,14 +20,23 @@ use App\Enums\OrcamentoTipoEnum;
  * @property int $ano_vigencia_inicio
  * @property int|null $ano_vigencia_fim
  * @property bool|null $active
+ * @property-read mixed $exercicio
+ * @property-read mixed $tipo_translated_value
+ * @property-read mixed $tipo_value
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrcamentoItem> $items
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereAnoVigenciaFim($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereAnoVigenciaInicio($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereAtive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereTipo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Orcamento whereUpdatedAt($value)
+ * @property-read int|null $items_count
+ * @method static Builder|Orcamento anoVigencia(int $anoInicio, ?int $anoFim = null)
+ * @method static \Database\Factories\OrcamentoFactory factory($count = null, $state = [])
+ * @method static Builder|Orcamento newModelQuery()
+ * @method static Builder|Orcamento newQuery()
+ * @method static Builder|Orcamento query()
+ * @method static Builder|Orcamento whereActive($value)
+ * @method static Builder|Orcamento whereAnoVigenciaFim($value)
+ * @method static Builder|Orcamento whereAnoVigenciaInicio($value)
+ * @method static Builder|Orcamento whereCreatedAt($value)
+ * @method static Builder|Orcamento whereId($value)
+ * @method static Builder|Orcamento whereTipo($value)
+ * @method static Builder|Orcamento whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Orcamento extends Model

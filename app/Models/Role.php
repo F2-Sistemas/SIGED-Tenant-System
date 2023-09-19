@@ -23,10 +23,6 @@ namespace App\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @mixin \Eloquent
  */
 class Role extends \Spatie\Permission\Models\Role

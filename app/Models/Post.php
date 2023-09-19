@@ -16,17 +16,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * App\Models\Post
  *
- * @property-read bool $published
- * @property int $id
+ * @property string $id
  * @property string $title
  * @property string $slug
  * @property string|null $content
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $category_id
+ * @property string|null $category_id
  * @property-read \App\Models\Category|null $category
  * @property-read string $formatted_content
+ * @property-read bool $published
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @method static \Database\Factories\PostFactory factory($count = null, $state = [])
  * @method static Builder|Post newModelQuery()
  * @method static Builder|Post newQuery()
@@ -40,10 +42,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static Builder|Post whereSlug($value)
  * @method static Builder|Post whereTitle($value)
  * @method static Builder|Post whereUpdatedAt($value)
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read int|null $media_count
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
- * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @mixin \Eloquent
  */
 class Post extends Model

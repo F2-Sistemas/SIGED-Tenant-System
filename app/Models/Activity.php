@@ -11,9 +11,9 @@ use Spatie\Activitylog\Models\Activity as SpatieActivity;
  * @property string|null $log_name
  * @property string $description
  * @property string|null $subject_type
- * @property int|null $subject_id
+ * @property string|null $subject_id
  * @property string|null $causer_type
- * @property int|null $causer_id
+ * @property string|null $causer_id
  * @property \Illuminate\Support\Collection|null $properties
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
