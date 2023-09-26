@@ -110,7 +110,7 @@ class Contrato {
     public ?string $vigencia_fim; // [INDEX]
     public ?string $valor; // [INDEX]
     public ?AtoDeContrato $ato_de_contrato; // [INDEX]
-    public ?RegistroDePreco $registro_de_preco; // [INDEX]
+    public ?RegistroDePreco $registro_de_preco; // [INDEX] // pode não conter esse 'registro'. Exemplo de existencia:  Nº 047/2023 | WAGNER AUTO PEÇAS LTDA - ME -> https://contendasdosincora.ba.gov.br/contratos/
     public ?string $objeto; // (descrição)
 }
 

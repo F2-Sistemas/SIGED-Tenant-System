@@ -6,3 +6,13 @@ export const generateRandomString = (length = 5, ofThisChars = null) => {
     }
     return result;
 }
+
+export const range = (start, end) => Array.from(Array(end - start + 1).keys()).map(i => i + start);
+
+export const _toString = (data, replacer = null, spacer = 4) => {
+    return JSON.stringify(data, replacer, spacer);
+};
+
+export const _toArray = (data) => {
+    return JSON.parse(JSON.stringify(data));
+};

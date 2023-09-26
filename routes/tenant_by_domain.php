@@ -15,4 +15,10 @@ Route::name('tenants.public.')->group(function () {
     ])
         ->where('anoVigencia', '20[1-2][0-9]')
         ->name('orcamentos.index');
+
+    Route::get('contratos/{selectedYear?}', [
+        \App\Http\Controllers\TenantPages\ContratosController::class, 'index'
+    ])
+        ->where('selectedYear', '20[1-2][0-9]')
+        ->name('contratos.index');
 });

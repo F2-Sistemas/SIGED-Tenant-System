@@ -27,7 +27,7 @@ class OrcamentosController extends Controller
         ?string $tipoOrcamento = null,
     ): Response {
         $tipoOrcamento ??= $request->query('tipoOrcamento');
-        $selectedYear = $request->query('selectedYear') ?? $anoVigencia ?? date('c');
+        $selectedYear = $request->query('selectedYear') ?? $anoVigencia ?? date('Y');
 
         $allowedYears = range(2015, date('Y') + 4); // Aceita apenas ano de referência a partir de X.
 
