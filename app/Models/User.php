@@ -114,7 +114,7 @@ class User extends Authenticatable implements HasMedia, FilamentUser
     /**
      * function updateStatus
      *
-     * @param null|stringint $status
+     * @param null|string|int $status
      * @return void
      */
     public function updateStatus(null|string|int $status): void
