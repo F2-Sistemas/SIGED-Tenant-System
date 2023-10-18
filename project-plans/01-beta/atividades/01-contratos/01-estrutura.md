@@ -67,7 +67,7 @@ class DocType {
     // ...
 }
 
-class Contratado {
+class Contratado { // WIP
     public string $name; // [INDEX]
     public ?string $doc_type_enum; // [INDEX]
     public ?string $legal_name; // Razão social:
