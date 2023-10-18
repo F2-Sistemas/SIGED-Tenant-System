@@ -26,8 +26,10 @@ trait NamesAndValues
 
     public static function getValues(): array
     {
+        $backedEnum = is_subclass_of(static::class, BackedEnum::class);
+
         foreach (static::cases() as $case) {
-            $value = $case->value ?? null;
+            $value = ($backedEnum ? $case?->value : $case?->name) ?? null;
 
             if (is_null($value)) {
                 continue;
@@ -119,16 +121,18 @@ trait NamesAndValues
         string $asValue = 'label',
     ): array {
         foreach (static::cases() as $case) {
+            $backedEnum = is_subclass_of(static::class, BackedEnum::class);
+
             $key = match ($asKey) {
                 'name', 'names' => $case?->name,
-                'value', 'values' => $case?->value,
+                'value', 'values' => $backedEnum ? $case?->value : $case?->name,
                 'label', 'labels' => $case?->getLabel(),
                 default => $case?->value,
             };
 
             $value = match ($asValue) {
                 'name', 'names' => $case?->name,
-                'value', 'values' => $case?->value,
+                'value', 'values' => $backedEnum ? $case?->value : $case?->name,
                 'label', 'labels' => $case?->getLabel(),
                 default => $case?->getLabel(),
             };

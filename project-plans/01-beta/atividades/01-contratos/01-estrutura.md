@@ -58,18 +58,18 @@ class Address {
     public ?string $extra_info_2;
 }
 
-class DocType {
-    const cnpj = 'cnpj';
-    const cpf = 'cpf';
-    const passport = 'passport';
-    const other = 'other';
-    const no_one = 'no_one';
+enum DocTypeEnum {
+    case CNPJ;
+    case CPF;
+    case PASSPORT;
+    case OTHER;
+    case NO_ONE;
     // ...
 }
 
 class Contratado { // WIP
     public string $name; // [INDEX]
-    public ?string $doc_type_enum; // [INDEX]
+    public ?DocTypeEnum $doc_type_enum; // [INDEX]
     public ?string $legal_name; // Razão social:
     public ?string $trading_name; // Nome fantasia:
     public ?string $doc; // [INDEX] limpar caracteres especiais. Aceitar apenas [a-zA-Z0-9]
