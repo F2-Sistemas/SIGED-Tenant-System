@@ -61,6 +61,7 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTenantId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @inheritDoc
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements HasMedia, FilamentUser
@@ -129,6 +130,6 @@ class User extends Authenticatable implements HasMedia, FilamentUser
 
     public function getAllPermissionNames(): Collection
     {
-        return $this->getAllPermissions()->flatMap(fn($item) => [$item->name]);
+        return $this->getAllPermissions()->flatMap(fn ($item) => [$item->name]);
     }
 }

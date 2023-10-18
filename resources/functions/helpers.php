@@ -123,8 +123,7 @@ if (!function_exists('objectify')) {
      */
     function objectify(mixed $content): object
     {
-        return new class($content)
-        {
+        return new class($content) {
             protected Collection $content;
 
             public function __construct(
@@ -233,7 +232,7 @@ if (!function_exists('objectify')) {
 
             public function call(string $key, ?Closure $defaultCallable = null, ...$params): mixed
             {
-                $defaultCallable ??= fn() => null;
+                $defaultCallable ??= fn () => null;
 
                 return call_user_func($this->getIfTypeIs($key, 'Closure', $defaultCallable, true), $params);
             }
@@ -276,7 +275,7 @@ if (!function_exists('processLinkData')) {
         $linkData->put('label', $label);
         $linkData->put(
             'html',
-            fn() => \Spatie\Html\Facades\Html::a($linkData->url, $linkData->label)
+            fn () => \Spatie\Html\Facades\Html::a($linkData->url, $linkData->label)
                 ->class($linkData->class)
                 ->attribute('target', $linkData->target)
         );
@@ -435,5 +434,44 @@ if (!function_exists('getMethods')) {
             $sort,
             $sortFlags,
         );
+    }
+}
+
+if (!function_exists('get_model_table')) {
+    /**
+     * function get_model_table
+     *
+     * @param string|object $model
+     *
+     * @return ?string
+     */
+    function get_model_table(string|object $model): ?string
+    {
+        if (!$model) {
+            return null;
+        }
+
+        $model = is_object($model) ? get_class($model) : $model;
+
+        if (class_exists($model) && method_exists($model, 'getTable')) {
+            return app($model)?->getTable();
+        }
+
+        return null;
+    }
+}
+
+if (!function_exists('call_if_callable')) {
+    /**
+     * function call_if_callable
+     *
+     * @param mixed $toCall,
+     * @param mixed ...$params
+     *
+     * @return mixed
+     */
+    function call_if_callable(mixed $toCall, mixed ...$params): mixed
+    {
+        return is_callable($toCall) ? call_user_func_array($toCall, $params) : null;
     }
 }

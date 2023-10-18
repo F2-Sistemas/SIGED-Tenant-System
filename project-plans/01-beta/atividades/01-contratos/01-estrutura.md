@@ -52,10 +52,10 @@ class PlaceTypeEnum {
 class Address {
     public City $city_id; // [INDEX]
     public PlaceTypeEnum $place_type; // [INDEX]
-    public string $part_1; // Os campos podem ser usados para mapeamentos como rua, número bairro etc
-    public ?string $part_2;
-    public ?string $part_4;
-    public ?string $part_5;
+    public string $place; // Os campos podem ser usados para mapeamentos como rua, número bairro etc
+    public ?string $place_number;
+    public ?string $extra_info_1;
+    public ?string $extra_info_2;
 }
 
 class DocType {

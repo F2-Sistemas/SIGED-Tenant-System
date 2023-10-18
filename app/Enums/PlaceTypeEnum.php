@@ -2,15 +2,12 @@
 
 namespace App\Enums;
 
-use TiagoF2\Enums\Core\Enum;
+use App\Enums\Concers\EnumHelpers;
 
-class PlaceTypeEnum extends Enum
+enum PlaceTypeEnum: int
 {
-    public const STREET = 10;
-    public const AVENUE = 20;
+    use EnumHelpers;
 
-    protected static array $enums = [
-        static::STREET => 'street',
-        static::AVENUE => 'avenue',
-    ];
+    case STREET = 10;
+    case AVENUE = 20;
 }

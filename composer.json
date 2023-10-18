@@ -46,8 +46,8 @@
         "spatie/laravel-html": "^3.2",
         "spatie/laravel-permission": "^5.4",
         "stancl/tenancy": "^3.7",
-        "tiagof2/f2-laravel-enums": "^2.0",
-        "tiagof2/f2-politool": "^1.0|dev-master",
+        "tiagof2/f2-laravel-enums": "^2.0.7",
+        "tiagof2/f2-politool": "^1.0|^2.0|dev-master",
         "tightenco/ziggy": "^1.0",
         "yemenpoint/filament-custom-fields": "^2.0|v2.x-dev"
     },

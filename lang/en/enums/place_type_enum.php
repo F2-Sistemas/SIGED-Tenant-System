@@ -11,6 +11,6 @@
  */
 
 return [
-    'street' => 'street',
-    'avenue' => 'avenue',
+    'STREET' => 'street',
+    'AVENUE' => 'avenue',
 ];

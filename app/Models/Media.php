@@ -50,6 +50,8 @@ use App\Traits\TenantStorageSet;
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Media whereUuid($value)
+ * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, static> all($columns = ['*'])
+ * @method static \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, static> get($columns = ['*'])
  * @mixin \Eloquent
  */
 class Media extends \Spatie\MediaLibrary\MediaCollections\Models\Media
