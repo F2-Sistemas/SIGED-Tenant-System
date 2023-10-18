@@ -45,13 +45,13 @@ class City {
     public string $country_iso_code; // [INDEX] // BR|PT|US
 }
 
-class PlaceType {
+class PlaceTypeEnum {
     public string $type; // rua, avenida, travessa, n_a etc
 }
 
 class Address {
     public City $city_id; // [INDEX]
-    public PlaceType $place_type; // [INDEX]
+    public PlaceTypeEnum $place_type; // [INDEX]
     public string $part_1; // Os campos podem ser usados para mapeamentos como rua, número bairro etc
     public ?string $part_2;
     public ?string $part_4;

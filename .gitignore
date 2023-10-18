@@ -1,7 +1,7 @@
 /.phpunit.cache
 /bootstrap/ssr
 /node_modules
-# /public/build
+/public/build
 /public/build/assets/*-*.js
 /public/build/assets/*-*.css
 /public/build/assets/*-*.svg
@@ -33,3 +33,5 @@ Modules/*/vendor/
 
 packages/*/node_modules/
 packages/*/vendor/
+
+.pnpm-store
